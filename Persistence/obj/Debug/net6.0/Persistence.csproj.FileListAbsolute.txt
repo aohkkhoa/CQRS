@@ -1,0 +1,15 @@
+D:\dotnet\CQRSdemo1\Persistence\bin\Debug\net6.0\Persistence.deps.json
+D:\dotnet\CQRSdemo1\Persistence\bin\Debug\net6.0\Persistence.dll
+D:\dotnet\CQRSdemo1\Persistence\bin\Debug\net6.0\Persistence.pdb
+D:\dotnet\CQRSdemo1\Persistence\bin\Debug\net6.0\Domain.dll
+D:\dotnet\CQRSdemo1\Persistence\bin\Debug\net6.0\Domain.pdb
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.csproj.AssemblyReference.cache
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.AssemblyInfoInputs.cache
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.AssemblyInfo.cs
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.csproj.CoreCompileInputs.cache
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.csproj.CopyComplete
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.dll
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\refint\Persistence.dll
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\Persistence.pdb
+D:\dotnet\CQRSdemo1\Persistence\obj\Debug\net6.0\ref\Persistence.dll
