@@ -30,9 +30,6 @@
             "projectReferences": {
               "D:\\dotnet\\CQRSdemo1\\Domain\\Domain.csproj": {
                 "projectPath": "D:\\dotnet\\CQRSdemo1\\Domain\\Domain.csproj"
-              },
-              "D:\\dotnet\\CQRSdemo1\\Persistence\\Persistence.csproj": {
-                "projectPath": "D:\\dotnet\\CQRSdemo1\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -155,6 +152,9 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+              "D:\\dotnet\\CQRSdemo1\\Application\\Application.csproj": {
+                "projectPath": "D:\\dotnet\\CQRSdemo1\\Application\\Application.csproj"
+              },
               "D:\\dotnet\\CQRSdemo1\\Domain\\Domain.csproj": {
                 "projectPath": "D:\\dotnet\\CQRSdemo1\\Domain\\Domain.csproj"
               }

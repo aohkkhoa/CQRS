@@ -1,7 +1,6 @@
-﻿using Domain.Models.Entities;
+﻿using Application.Interfaces;
+using Domain.Models.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
-using Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,18 +17,20 @@ namespace Application.Features.BookFeatures.Commands
         [Required]
         public string Author { get; set; }
         public string Description { get; set; }
+        public float Price { get; set; }
         public int CategoryId { get; set; }
         public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
         {
-            private readonly ApplicationDbContext _context;
+            private readonly IBookRepository _context;
 
-            public CreateBookCommandHandler(ApplicationDbContext context)
+            public CreateBookCommandHandler(IBookRepository context)
             {
                 _context = context;
             }
             public async Task<int> Handle(CreateBookCommand command, CancellationToken cancellationToken)
             {
-                using (var transaction = _context.Database.BeginTransaction())
+
+                /*using (var transaction = _context.Database.BeginTransaction())
                 {
                     try
                     {
@@ -59,7 +60,7 @@ namespace Application.Features.BookFeatures.Commands
                         return -2;
                     }
 
-                }
+                }*/
                 return -1;
             }
         }

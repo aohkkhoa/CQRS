@@ -1037,8 +1037,7 @@
         "dependencies": {
           "Domain": "1.0.0",
           "EntityFramework": "6.4.4",
-          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
-          "Persistence": "1.0.0"
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1"
         },
         "compile": {
           "bin/placeholder/Application.dll": {}
@@ -1061,6 +1060,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Application": "1.0.0",
           "Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "6.0.9",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.9"

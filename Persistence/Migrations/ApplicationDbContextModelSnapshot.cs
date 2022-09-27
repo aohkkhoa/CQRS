@@ -41,6 +41,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -75,8 +78,9 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
 
-                    b.Property<int>("CustomerName")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
@@ -99,7 +103,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("Order");
+                    b.ToTable("OrderMain");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.OrderDetail", b =>
@@ -110,7 +114,7 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"), 1L, 1);
 
-                    b.Property<int>("BookId")
+                    b.Property<int>("CheckPaid")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")

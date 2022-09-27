@@ -1,7 +1,6 @@
-﻿using Domain.Models.Entities;
+﻿using Application.Interfaces;
+using Domain.Models.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +15,16 @@ namespace Application.Features.BookFeatures.Queries
     }
     public class GetAllProductsQueryHandler : IRequestHandler<GetAllBookQuery, IEnumerable<Book>>
         {
-            private readonly ApplicationDbContext _context;
+            private readonly IBookRepository _context;
 
-        public GetAllProductsQueryHandler(ApplicationDbContext context)
+        public GetAllProductsQueryHandler(IBookRepository context)
         {
             _context=context;
         }
 
         public async Task<IEnumerable<Book>> Handle(GetAllBookQuery query, CancellationToken cancellationToken)
             {
-                var productList = await _context.Books.ToListAsync();
+            var productList = await _context.GetBooks();
                 if (productList == null)
                 {
                     return null;

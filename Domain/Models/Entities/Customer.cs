@@ -13,6 +13,6 @@ namespace Domain.Models.Entities
     {
         [Key]
         public int CustomerId { get; set; }
-        public int CustomerName { get; set; }
+        public string CustomerName { get; set; }
     }
 }

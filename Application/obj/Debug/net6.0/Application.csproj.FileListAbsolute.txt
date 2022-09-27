@@ -11,9 +11,7 @@ D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\refint\Application.dll
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\Application.pdb
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\ref\Application.dll
 D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Domain.dll
-D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Persistence.dll
 D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Domain.pdb
-D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Persistence.pdb
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Application.runtimeconfig.json
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache

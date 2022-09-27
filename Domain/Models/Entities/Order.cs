@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Entities
 {
-    [Table("Order")]
+    [Table("OrderMain")]
     public class Order
     {
         [Key]
