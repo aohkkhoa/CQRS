@@ -25,10 +25,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configur
                             typeof(CreateBookCommand).Assembly);*/
 builder.Services.AddMediatR(typeof(IBookRepository).Assembly,
                             typeof(IOrderRepository).Assembly,
-                            typeof(IOrderDetailRepository).Assembly);
+                            typeof(IOrderDetailRepository).Assembly,
+                            typeof(IStorageRepository).Assembly,
+                            typeof(ICategoryRepository).Assembly);
+builder.Services.AddScoped<IStorageRepository, StorageRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<IMediator, Mediator>();
 var app = builder.Build();

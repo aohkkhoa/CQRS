@@ -22,7 +22,7 @@ namespace Application.Features.OrderFeatures.Commands
             public async Task<int> Handle(UpdateCheckPaidOrderComand command, CancellationToken cancellationToken)
             {
                 var productList = await _context.getAllOrderWillPay(command.CustomerName);
-                var result = _context.paid(productList);
+                var result =await _context.paid(productList);
                 return 200;
             }
         }

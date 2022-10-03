@@ -10,6 +10,7 @@ namespace Application.Interfaces
     public interface IOrderDetailRepository
     {
         public Task<int> AddOrderDetail(OrderDetail orderDetal);
+        public Task<int> DeleteOrderDetailById(int orderDeteailId);
         Task<OrderDetail> UpdateQuantity(int orderDetailId, int quantity);
     }
 }

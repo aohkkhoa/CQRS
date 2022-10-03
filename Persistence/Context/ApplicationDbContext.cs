@@ -16,6 +16,8 @@ namespace Persistence.Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+
 
         public async Task<int> SaveChanges()
         {

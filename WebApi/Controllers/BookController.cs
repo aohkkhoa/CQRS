@@ -1,6 +1,7 @@
 ﻿using Application.Features.BookFeatures.Commands;
 using Application.Features.BookFeatures.Queries;
 using Application.Features.CategoryFeatures.Queries;
+using Domain.Models.DTO;
 using Domain.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Book>> GetAll()
+        public async Task<IEnumerable<BookInformation>> GetAll()
         {
             return await _mediator.Send(new GetAllBookQuery());
         }

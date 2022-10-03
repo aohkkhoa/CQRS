@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.BookFeatures.Commands
 {
-    public class CreateBookCommand : IRequest<int>
+    public class CreateBookCommand : IRequest<string>
     {
         public string Title { get; set; }
         [Required]
@@ -19,7 +19,8 @@ namespace Application.Features.BookFeatures.Commands
         public string Description { get; set; }
         public float Price { get; set; }
         public int CategoryId { get; set; }
-        public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
+        public int Quantity { get; set; }
+        public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, string>
         {
             private readonly IBookRepository _context;
 
@@ -27,41 +28,24 @@ namespace Application.Features.BookFeatures.Commands
             {
                 _context = context;
             }
-            public async Task<int> Handle(CreateBookCommand command, CancellationToken cancellationToken)
+            public async Task<string> Handle(CreateBookCommand command, CancellationToken cancellationToken)
             {
-
-                /*using (var transaction = _context.Database.BeginTransaction())
+                if (_context.FindBookByName(command.Title)==0)
                 {
-                    try
-                    {
-                        var book = new Book();
-                        book.Title = command.Title;
-                        book.Author = command.Author;
-                        book.Description = command.Description;
-                        book.Title = command.Title;
-                        book.CategoryId = command.CategoryId;
-                        _context.Books.Add(book);
-                        await _context.SaveChangesAsync();
-                        throw new Exception();
-                        var category = new Category()
-                        {
-                            CategoryName = "testTrans2"
-                        };
+                    return await _context.AddQuantity(command.Title, command.Quantity);
 
-                        _context.Categories.Add(category);
-                        await _context.SaveChangesAsync();
-                        transaction.Commit();
-                        return book.Id;
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        Console.WriteLine("Error occurred.");
-                        return -2;
-                    }
-
-                }*/
-                return -1;
+                }
+                else
+                {
+                    var book = new Book();
+                    book.Title = command.Title;
+                    book.Author = command.Author;
+                    book.Description = command.Description;
+                    book.Price = command.Price;
+                    book.CategoryId = command.CategoryId;
+                    await _context.AddBook(book, command.Quantity);
+                    return "just add book";
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ using Domain.Models.Entities;
 using Persistence.Context;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,19 @@ namespace Persistence.repositories
             _context.OrderDetails.Add(orderDetail);
             await _context.SaveChangesAsync();
             return orderDetail.OrderDetailId;
+        }
+
+        public async Task<int> DeleteOrderDetailById(int orderDeteailId)
+        {
+            var item =  _context.OrderDetails.Where(a => a.OrderDetailId == orderDeteailId).FirstOrDefault();
+            if (item == null) return default;
+            _context.OrderDetails.Remove(item);
+            await _context.SaveChangesAsync();
+            var order =  _context.Orders.Where(a => a.OrderId == item.OrderId).FirstOrDefault();
+            if (order == null) return default;
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            return item.OrderDetailId;
         }
 
         public async Task<OrderDetail> UpdateQuantity(int orderDetailId, int quantity)

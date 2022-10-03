@@ -130,6 +130,25 @@ namespace Persistence.Migrations
 
                     b.ToTable("OrderDetail");
                 });
+
+            modelBuilder.Entity("Domain.Models.Entities.Storage", b =>
+                {
+                    b.Property<int>("StorageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StorageId"), 1L, 1);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("StorageId");
+
+                    b.ToTable("Storage");
+                });
 #pragma warning restore 612, 618
         }
     }

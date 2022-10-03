@@ -16,22 +16,23 @@ namespace Application.Features.CategoryFeatures.Queries
     }
     public class GetAllcategoriesQueryHandler : IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>
     {
-        private readonly IBookRepository _context;
+        private readonly ICategoryRepository _context;
 
-        public GetAllcategoriesQueryHandler(IBookRepository context)
+        public GetAllcategoriesQueryHandler(ICategoryRepository context)
         {
             _context=context;
         }
 
-        public async Task<IEnumerable<Category>> Handle(GetAllCategoryQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Category>> Handle(GetAllCategoryQuery query, CancellationToken cancellationToken)
         {
-            /*var productList = await _context.Categories.ToListAsync();
+            var productList =  _context.GetAllCategories();
             if (productList == null)
             {
                 return null;
             }
-            return productList.ToList();*/
-            return null;
+            return Task.FromResult(productList);
         }
+
+    
     }
 }
