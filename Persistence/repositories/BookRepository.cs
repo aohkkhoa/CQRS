@@ -63,7 +63,7 @@ namespace Persistence.repositories
             return 1 ;
         } 
 
-        public async Task<List<BookInformation>> GetBooks()
+        public Task<List<BookInformation>> GetBooks()
         {
             var books = (from b in _context.Books
                         join c in _context.Categories on b.CategoryId equals c.CategoryId
@@ -75,7 +75,7 @@ namespace Persistence.repositories
                             Title = b.Title
                         }).ToList();
             //var productList =  await _context.Books.ToListAsync();
-            return books;
+            return Task.FromResult(books);
         }
         /*public Async List<Book> GetBooks()
 {

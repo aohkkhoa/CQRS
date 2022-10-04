@@ -1,6 +1,7 @@
 ﻿using Application.Features.BookFeatures.Commands;
 using Application.Features.BookFeatures.Queries;
 using Application.Features.CategoryFeatures.Queries;
+using BlazorHero.CleanArchitecture.Shared.Wrapper;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
 using MediatR;
@@ -27,7 +28,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<BookInformation>> GetAll()
+        public async Task<Result<List<BookInformation>>> GetAll()
         {
             return await _mediator.Send(new GetAllBookQuery());
         }

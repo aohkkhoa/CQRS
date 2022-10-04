@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using BlazorHero.CleanArchitecture.Shared.Wrapper;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
 using MediatR;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.BookFeatures.Queries
 {
-    public class GetAllBookQuery : IRequest<IEnumerable<BookInformation>>
+    public class GetAllBookQuery : IRequest<Result<List<BookInformation>>>
     {
         
     }
-    public class GetAllProductsQueryHandler : IRequestHandler<GetAllBookQuery, IEnumerable<BookInformation>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllBookQuery, Result<List<BookInformation>>>
         {
             private readonly IBookRepository _context;
 
@@ -23,7 +24,7 @@ namespace Application.Features.BookFeatures.Queries
             _context=context;
         }
 
-        public async Task<IEnumerable<BookInformation>> Handle(GetAllBookQuery query, CancellationToken cancellationToken)
+        public async Task<Result<List<BookInformation>>> Handle(GetAllBookQuery query, CancellationToken cancellationToken)
             {
 
             var productList = await _context.GetBooks();
@@ -31,7 +32,7 @@ namespace Application.Features.BookFeatures.Queries
                 {
                     return null;
                 }
-                return productList;
+                return  await Result<List<BookInformation>>.SuccessAsync(productList); ;
             }
         }
 }
