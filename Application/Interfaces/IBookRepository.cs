@@ -11,8 +11,8 @@ namespace Application.Interfaces
     public interface IBookRepository
     {
         public Task<List<BookInformation>> GetBooks();
-        public Task<int> AddBook(Book book, int quantity);
+        public Task<BookInformation> AddBook(Book book, int quantity);
         public int FindBookByName(string bookName);
-        public Task<string> AddQuantity(string BookName, int quantity);
+        public Task<BookInformation> AddQuantity(string BookName, int quantity);
     }
 }

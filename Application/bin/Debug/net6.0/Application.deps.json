@@ -10,7 +10,8 @@
         "dependencies": {
           "Domain": "1.0.0",
           "EntityFramework": "6.4.4",
-          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1"
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
+          "Shared": "1.0.0"
         },
         "runtime": {
           "Application.dll": {}
@@ -267,6 +268,11 @@
         "runtime": {
           "Domain.dll": {}
         }
+      },
+      "Shared/1.0.0": {
+        "runtime": {
+          "Shared.dll": {}
+        }
       }
     }
   },
@@ -438,6 +444,11 @@
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
     "Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

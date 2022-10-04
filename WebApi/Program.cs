@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Context;
+using Persistence.Extensions;
 using Persistence.repositories;
 using System.Reflection;
 
@@ -19,21 +20,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configuration.GetConnectionString("MyDB")));
-/*builder.Services.AddMediatR(typeof(GetAllBookQuery).Assembly,
-                            typeof(GetAllCategoryQuery).Assembly,
-                            typeof(CreateBookCommand).Assembly);*/
-builder.Services.AddMediatR(typeof(IBookRepository).Assembly,
-                            typeof(IOrderRepository).Assembly,
-                            typeof(IOrderDetailRepository).Assembly,
-                            typeof(IStorageRepository).Assembly,
-                            typeof(ICategoryRepository).Assembly);
-builder.Services.AddScoped<IStorageRepository, StorageRepository>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
+// add mediatr and repository
+builder.Services.AddApplication();
+// add DBcontext
+builder.Services.AddDBContext(configuration);
 builder.Services.AddScoped<IMediator, Mediator>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.

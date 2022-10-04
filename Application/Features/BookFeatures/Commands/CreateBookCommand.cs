@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using BlazorHero.CleanArchitecture.Shared.Wrapper;
+using Domain.Models.DTO;
 using Domain.Models.Entities;
 using MediatR;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.BookFeatures.Commands
 {
-    public class CreateBookCommand : IRequest<string>
+    public class CreateBookCommand : IRequest<Result<BookInformation>>
     {
         public string Title { get; set; }
         [Required]
@@ -20,7 +22,7 @@ namespace Application.Features.BookFeatures.Commands
         public float Price { get; set; }
         public int CategoryId { get; set; }
         public int Quantity { get; set; }
-        public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, string>
+        public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Result<BookInformation>>
         {
             private readonly IBookRepository _context;
 
@@ -28,12 +30,13 @@ namespace Application.Features.BookFeatures.Commands
             {
                 _context = context;
             }
-            public async Task<string> Handle(CreateBookCommand command, CancellationToken cancellationToken)
+            public async Task<Result<BookInformation>> Handle(CreateBookCommand command, CancellationToken cancellationToken)
             {
                 if (_context.FindBookByName(command.Title)==0)
                 {
-                    return await _context.AddQuantity(command.Title, command.Quantity);
 
+                    var bookresult = await _context.AddQuantity(command.Title, command.Quantity);
+                    return await Result<BookInformation>.SuccessAsync(bookresult, "just update quantity");
                 }
                 else
                 {
@@ -43,8 +46,8 @@ namespace Application.Features.BookFeatures.Commands
                     book.Description = command.Description;
                     book.Price = command.Price;
                     book.CategoryId = command.CategoryId;
-                    await _context.AddBook(book, command.Quantity);
-                    return "just add book";
+                    var bookresult = await _context.AddBook(book, command.Quantity);
+                    return await Result<BookInformation>.SuccessAsync(bookresult, "add compelete");
                 }
             }
         }

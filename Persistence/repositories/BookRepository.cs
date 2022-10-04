@@ -20,22 +20,39 @@ namespace Persistence.repositories
             _context=context;
         }
 
-        public async Task<int> AddBook(Book book, int quantity)
+        public async Task<BookInformation> AddBook(Book book, int quantity)
         {
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
+            var category = _context.Categories.Where(x => x.CategoryId == book.CategoryId).FirstOrDefault();
             _context.Storages.Add(new Storage() { BookId =book.Id, Quantity = quantity });
             await _context.SaveChangesAsync();
-            return book.Id;
+            var storage = _context.Storages.Where(x => x.BookId == book.Id).FirstOrDefault();
+            BookInformation bookInfo = new BookInformation()
+            {
+                BookId = book.Id,
+                Category = category.CategoryName,
+                Title = book.Title,
+                Quantity = storage.Quantity
+            };
+            return bookInfo;
         }
 
-        public async Task<string> AddQuantity(string bookName, int quantity)
+        public async Task<BookInformation> AddQuantity(string bookName, int quantity)
         {
             var book = _context.Books.Where(x => x.Title == bookName ).FirstOrDefault();
+            var category = _context.Categories.Where(x=>x.CategoryId == book.CategoryId).FirstOrDefault();
             var storage = _context.Storages.Where(x => x.BookId == book.Id).FirstOrDefault();
             storage.Quantity = storage.Quantity + quantity;
             await _context.SaveChanges();
-            return "just update quantity";
+            BookInformation bookInfo = new BookInformation()
+            {
+                BookId = book.Id,
+                Category = category.CategoryName,
+                Title = book.Title,
+                Quantity = storage.Quantity
+            };
+            return bookInfo;
         }
 
         public int FindBookByName(string bookName)

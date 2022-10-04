@@ -11,5 +11,6 @@ namespace Domain.Models.DTO
         public int BookId { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
+        public int Quantity { get; set; }
     }
 }

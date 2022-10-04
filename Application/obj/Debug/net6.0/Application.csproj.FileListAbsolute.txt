@@ -15,3 +15,5 @@ D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Domain.pdb
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Application.runtimeconfig.json
 D:\dotnet\CQRSdemo1\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
+D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Shared.dll
+D:\dotnet\CQRSdemo1\Application\bin\Debug\net6.0\Shared.pdb
