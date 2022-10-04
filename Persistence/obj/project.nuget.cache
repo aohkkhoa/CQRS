@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "yjzXxIrAVAff/GmlR/g4e8/u2cwdVSwvk17t4bHAlbZOGXQfuXtjqsgAQEVn9I0SS+pjJGEi2Rz5TytXQYxViw==",
+  "dgSpecHash": "m3n0APLbNdh5ok1/Dh5C2TdaaOf3Frmrm3Urm61mxZl3JTJ5ySP6e4zlDywK1EYoM21HKTK0z/mM7JA5N85wmQ==",
   "success": true,
   "projectFilePath": "D:\\dotnet\\CQRSdemo1\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",

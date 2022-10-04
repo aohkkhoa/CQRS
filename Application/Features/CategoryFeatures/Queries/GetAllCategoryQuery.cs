@@ -1,12 +1,6 @@
-﻿using Application.Features.BookFeatures.Queries;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.CategoryFeatures.Queries
 {
@@ -16,16 +10,16 @@ namespace Application.Features.CategoryFeatures.Queries
     }
     public class GetAllcategoriesQueryHandler : IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>
     {
-        private readonly ICategoryRepository _context;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public GetAllcategoriesQueryHandler(ICategoryRepository context)
+        public GetAllcategoriesQueryHandler(ICategoryRepository categoryRepository)
         {
-            _context=context;
+            _categoryRepository=categoryRepository;
         }
 
         public Task<IEnumerable<Category>> Handle(GetAllCategoryQuery query, CancellationToken cancellationToken)
         {
-            var productList =  _context.GetAllCategories();
+            var productList = _categoryRepository.GetAllCategories();
             if (productList == null)
             {
                 return null;
@@ -33,6 +27,6 @@ namespace Application.Features.CategoryFeatures.Queries
             return Task.FromResult(productList);
         }
 
-    
+
     }
 }

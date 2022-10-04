@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Features\BookFeatures\Commands\Delete\" />
+    <Folder Include="Features\BookFeatures\Commands\Update\" />
     <Folder Include="Features\CategoryFeatures\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 

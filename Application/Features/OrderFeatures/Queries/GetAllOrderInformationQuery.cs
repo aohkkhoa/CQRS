@@ -1,13 +1,6 @@
-﻿using Application.Features.CategoryFeatures.Queries;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models.DTO;
-using Domain.Models.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Queries
 {
@@ -17,16 +10,16 @@ namespace Application.Features.OrderFeatures.Queries
     }
     public class GetAllOrderInformationQueryHandler : IRequestHandler<GetAllOrderInformationQuery, IEnumerable<OrderInformation>>
     {
-        private readonly IOrderRepository _context;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetAllOrderInformationQueryHandler(IOrderRepository context)
+        public GetAllOrderInformationQueryHandler(IOrderRepository orderRepository)
         {
-            _context=context;
+            _orderRepository=orderRepository;
         }
 
         public async Task<IEnumerable<OrderInformation>> Handle(GetAllOrderInformationQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _context.getAllOrderInformation(query.CustomerName);
+            var productList = await _orderRepository.getAllOrderInformation(query.CustomerName);
             if (productList == null)
             {
                 return null;

@@ -1,11 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Models.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Commands
 {
@@ -14,15 +8,15 @@ namespace Application.Features.OrderFeatures.Commands
         public string CustomerName { get; set; }
         public class updateCheckPaidOrderComandHandler : IRequestHandler<UpdateCheckPaidOrderComand, int>
         {
-            private readonly IOrderRepository _context;
-            public updateCheckPaidOrderComandHandler(IOrderRepository context, IOrderDetailRepository orderDetailRepository)
+            private readonly IOrderRepository _orderRepository;
+            public updateCheckPaidOrderComandHandler(IOrderRepository orderRepository)
             {
-                _context = context;
+                _orderRepository = orderRepository;
             }
             public async Task<int> Handle(UpdateCheckPaidOrderComand command, CancellationToken cancellationToken)
             {
-                var productList = await _context.getAllOrderWillPay(command.CustomerName);
-                var result =await _context.paid(productList);
+                var productList = await _orderRepository.getAllOrderWillPay(command.CustomerName);
+                var result = await _orderRepository.paid(productList);
                 return 200;
             }
         }

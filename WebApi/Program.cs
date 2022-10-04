@@ -1,22 +1,17 @@
-using Application.Features.BookFeatures.Commands;
-using Application.Features.BookFeatures.Queries;
-using Application.Features.CategoryFeatures.Queries;
-using Application.Interfaces;
+using Application.Features.BookFeatures.Commands.Create;
+using Application.Validators.Features.Books.Commands;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Persistence.Context;
 using Persistence.Extensions;
-using Persistence.repositories;
-using System.Reflection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = AppDomain.CurrentDomain.GetAssemblies();
 ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,6 +20,10 @@ builder.Services.AddApplication();
 // add DBcontext
 builder.Services.AddDBContext(configuration);
 builder.Services.AddScoped<IMediator, Mediator>();
+
+
+builder.Services.AddScoped<IValidator<CreateBookCommand>, CreateBookCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateBookCommandValidator>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

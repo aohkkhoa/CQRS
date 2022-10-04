@@ -1,15 +1,22 @@
 ﻿using Domain.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
     public interface ICategoryRepository
     {
-        public int DeleteCategory(int categoryId);
-        public IEnumerable<Category> GetAllCategories();
+
+        /// <summary>
+        /// xóa loại hàng
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        int DeleteCategory(int categoryId);
+
+
+        /// <summary>
+        /// lấy danh sách loại hàng
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Category> GetAllCategories();
     }
 }

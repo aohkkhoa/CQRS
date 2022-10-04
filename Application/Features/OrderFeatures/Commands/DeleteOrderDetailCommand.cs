@@ -1,10 +1,5 @@
 ﻿using Application.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Commands
 {
@@ -14,16 +9,16 @@ namespace Application.Features.OrderFeatures.Commands
     }
     public class DeleteOrderDetailCommandHandler : IRequestHandler<DeleteOrderDetailCommand, int>
     {
-        private readonly IOrderRepository _context;
-        private readonly IOrderDetailRepository _orderRepository;
-        public DeleteOrderDetailCommandHandler(IOrderRepository context, IOrderDetailRepository orderDetailRepository)
+        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderDetailRepository _orderDetailRepository;
+        public DeleteOrderDetailCommandHandler(IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
         {
-            _context = context;
-            _orderRepository = orderDetailRepository;
+            _orderRepository = orderRepository;
+            _orderDetailRepository = orderDetailRepository;
         }
         public async Task<int> Handle(DeleteOrderDetailCommand command, CancellationToken cancellationToken)
         {
-            var orderDetailId = await _orderRepository.DeleteOrderDetailById(command.OrderDeteailId);
+            var orderDetailId = await _orderDetailRepository.DeleteOrderDetailById(command.OrderDeteailId);
             return 200;
         }
     }

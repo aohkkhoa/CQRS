@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "bgix3O/4V3iIfKQjtz7Awr68Y1a0bXgHrvVIXEErgnnwJIJvCMwE0bqbADOt24hbiryyp3P5TFlcKt5K1oIEvg==",
+  "dgSpecHash": "zL7KwQkpFS2KSROHM6FUkN0ubMJScmHgz3A+KaEa63MPwRgghBJ52RiPf07hi3JBkDeWU4pSi+PymoUl6GTwPw==",
   "success": true,
   "projectFilePath": "D:\\dotnet\\CQRSdemo1\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",

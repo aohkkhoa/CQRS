@@ -1,14 +1,19 @@
-﻿using Application.Features.BookFeatures.Commands;
+﻿using Application.Features.BookFeatures.Commands.Create;
 using Application.Features.BookFeatures.Queries;
 using Application.Features.CategoryFeatures.Queries;
+using Application.Validators.Features.Books.Commands;
 using BlazorHero.CleanArchitecture.Shared.Wrapper;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
+using System;
 
 namespace WebApi.Controllers
 {
@@ -18,41 +23,37 @@ namespace WebApi.Controllers
     {
 
 
-
+        private IValidator<CreateBookCommand> _validator;
         private readonly IMediator _mediator;
 
-        public BookController(IMediator mediator) => _mediator = mediator;
+        public BookController(IMediator mediator, IValidator<CreateBookCommand> validator)
+        {
+            _mediator = mediator;
+            _validator = validator;
+        } 
 
-        /// <summary>
-        /// Gets all Products.
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public async Task<Result<List<BookInformation>>> GetAll()
         {
             return await _mediator.Send(new GetAllBookQuery());
         }
 
-
-        //[HttpGet]
-        //public async Task<IEnumerable<Book>> Get()
-        //{
-        //    var productList = await _context.Books.ToListAsync();
-        //    if (productList == null) throw new Exception("loi");
-
-        //    return productList.ToList();
-        //}
-
-
-
-        /// <summary>
-        /// Creates a New Product.
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateBookCommand command)
         {
+            ValidationResult result = await _validator.ValidateAsync(command);
+
+            if (!result.IsValid)
+            {
+                // Copy the validation results into ModelState.
+                // ASP.NET uses the ModelState collection to populate 
+                // error messages in the View.
+                result.AddToModelState(this.ModelState);
+                // re-render the view when validation failed.
+                return result.IsValid ? Ok(result) : BadRequest(result);
+            }
+
+
             return Ok(await _mediator.Send(command));
         }
     }

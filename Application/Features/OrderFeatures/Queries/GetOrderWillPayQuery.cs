@@ -1,13 +1,6 @@
-﻿using Application.Features.CategoryFeatures.Queries;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models.DTO;
-using Domain.Models.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Queries
 {
@@ -17,18 +10,18 @@ namespace Application.Features.OrderFeatures.Queries
     }
     public class GetOrderWillPayQueryHandler : IRequestHandler<GetOrderWillPayQuery, List<OrderInformation>>
     {
-        private readonly IOrderRepository _context;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetOrderWillPayQueryHandler(IOrderRepository context)
+        public GetOrderWillPayQueryHandler(IOrderRepository orderRepository)
         {
-            _context=context;
+            _orderRepository= orderRepository;
         }
 
         public async Task<List<OrderInformation>> Handle(GetOrderWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _context.getAllOrderWillPay(query.CustomerName);
+            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerName);
             return productList;
-           
+
         }
     }
 }

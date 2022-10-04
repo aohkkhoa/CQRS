@@ -1,13 +1,5 @@
-﻿using Application.Features.CategoryFeatures.Queries;
-using Application.Interfaces;
-using Domain.Models.DTO;
-using Domain.Models.Entities;
+﻿using Application.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Queries
 {
@@ -17,17 +9,17 @@ namespace Application.Features.OrderFeatures.Queries
     }
     public class GetTotalPriceWillPayQueryHandler : IRequestHandler<GetTotalPriceWillPayQuery, float>
     {
-        private readonly IOrderRepository _context;
+        private readonly IOrderRepository _orderRepository;
 
         public GetTotalPriceWillPayQueryHandler(IOrderRepository context)
         {
-            _context=context;
+            _orderRepository=context;
         }
 
         public async Task<float> Handle(GetTotalPriceWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _context.getAllOrderWillPay(query.CustomerName);
-            var totalPrice = _context.getTotalPrice(productList);
+            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerName);
+            var totalPrice = _orderRepository.getTotalPrice(productList);
             return totalPrice;
            
         }

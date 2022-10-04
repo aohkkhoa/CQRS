@@ -79,3 +79,6 @@ D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\Syst
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\Shared.dll
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\Shared.pdb
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll

@@ -1,13 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.repositories
 {
@@ -40,8 +34,8 @@ namespace Persistence.repositories
 
         public async Task<BookInformation> AddQuantity(string bookName, int quantity)
         {
-            var book = _context.Books.Where(x => x.Title == bookName ).FirstOrDefault();
-            var category = _context.Categories.Where(x=>x.CategoryId == book.CategoryId).FirstOrDefault();
+            var book = _context.Books.Where(x => x.Title == bookName).FirstOrDefault();
+            var category = _context.Categories.Where(x => x.CategoryId == book.CategoryId).FirstOrDefault();
             var storage = _context.Storages.Where(x => x.BookId == book.Id).FirstOrDefault();
             storage.Quantity = storage.Quantity + quantity;
             await _context.SaveChanges();
@@ -59,21 +53,21 @@ namespace Persistence.repositories
         {
 
             var book = _context.Books.Where(a => a.Title==bookName).ToList();
-            if(book.Count()!=0) return 0;
-            return 1 ;
-        } 
+            if (book.Count()!=0) return 0;
+            return 1;
+        }
 
         public Task<List<BookInformation>> GetBooks()
         {
             var books = (from b in _context.Books
-                        join c in _context.Categories on b.CategoryId equals c.CategoryId
+                         join c in _context.Categories on b.CategoryId equals c.CategoryId
                          orderby b.Id descending
                          select new BookInformation()
-                        {
-                            BookId = b.Id,
-                            Category = c.CategoryName,
-                            Title = b.Title
-                        }).ToList();
+                         {
+                             BookId = b.Id,
+                             Category = c.CategoryName,
+                             Title = b.Title
+                         }).ToList();
             //var productList =  await _context.Books.ToListAsync();
             return Task.FromResult(books);
         }
