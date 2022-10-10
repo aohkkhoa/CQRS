@@ -1,7 +1,8 @@
-﻿using Application.Interfaces;
-using BlazorHero.CleanArchitecture.Shared.Wrapper;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Domain.Models.DTO;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.BookFeatures.Queries
 {
@@ -22,9 +23,9 @@ namespace Application.Features.BookFeatures.Queries
         {
 
             var productList = await _bookRepository.GetBooks();
-            if (productList == null)
+            if (productList.Count() == 0)
             {
-                return null;
+                throw new ApiException("null roi coi lai du lieu trong sql");
             }
             return await Result<List<BookInformation>>.SuccessAsync(productList);
         }

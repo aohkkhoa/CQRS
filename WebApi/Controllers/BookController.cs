@@ -2,18 +2,20 @@
 using Application.Features.BookFeatures.Queries;
 using Application.Features.CategoryFeatures.Queries;
 using Application.Validators.Features.Books.Commands;
-using BlazorHero.CleanArchitecture.Shared.Wrapper;
+using BookManagement2.Models.Entities;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using System;
+using Shared.Wrapper;
 
 namespace WebApi.Controllers
 {
@@ -21,8 +23,6 @@ namespace WebApi.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-
-
         private IValidator<CreateBookCommand> _validator;
         private readonly IMediator _mediator;
 
@@ -30,8 +30,9 @@ namespace WebApi.Controllers
         {
             _mediator = mediator;
             _validator = validator;
-        } 
+        }
 
+        [Authorize(Roles="Admin")]
         [HttpGet]
         public async Task<Result<List<BookInformation>>> GetAll()
         {

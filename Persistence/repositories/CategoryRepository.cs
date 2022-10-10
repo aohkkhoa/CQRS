@@ -26,7 +26,7 @@ namespace Persistence.repositories
             {
                 return 1;
             }
-            var category = _context.Categories.Where(x => x.CategoryId == categoryId).FirstOrDefault();
+            var category = _context.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
             if (category==null)
             {
                 return -2;

@@ -8,15 +8,18 @@ namespace Application.Features.OrderFeatures.Commands
     public class CreateOrderCommand : IRequest<string>
     {
         public List<OrderCreate> OrderCreate { get; set; }
+
         public class CreateBookCommandHandler : IRequestHandler<CreateOrderCommand, string>
         {
             private readonly IOrderRepository _orderRepository;
             private readonly IOrderDetailRepository _orderDetailRepository;
+
             public CreateBookCommandHandler(IOrderRepository context, IOrderDetailRepository orderDetailRepository)
             {
                 _orderRepository = context;
                 _orderDetailRepository = orderDetailRepository;
             }
+
             public async Task<string> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
             {
                 try
@@ -24,24 +27,29 @@ namespace Application.Features.OrderFeatures.Commands
                     var test = await _orderRepository.getAllOrderWillPay("customerA");
                     foreach (var item in command.OrderCreate)
                     {
-                        List<OrderCreate> a = new List<OrderCreate>() {new OrderCreate()
-                                                                       {BookId=item.BookId,
-                                                                        CustomerId=item.CustomerId,
-                                                                        Quantity = item.Quantity,
-                                                                        }};
-                        if (test.Count()==0) a = command.OrderCreate;
+                        List<OrderCreate> a = new List<OrderCreate>()
+                        {
+                            new OrderCreate()
+                            {
+                                BookId = item.BookId,
+                                CustomerId = item.CustomerId,
+                                Quantity = item.Quantity,
+                            }
+                        };
+                        if (test.Count() == 0) a = command.OrderCreate;
                         var count1 = 0;
                         foreach (var item2 in test)
                         {
-                            if (item.BookId==item2.BookId)
+                            if (item.BookId == item2.BookId)
                             {
                                 count1++;
                                 var orderDetailTest = _orderRepository.findOrderDetailByBookId(item.BookId);
-                                if (orderDetailTest.Count()!=0)
+                                if (orderDetailTest.Count() != 0)
                                     await _orderRepository.addQuantityOfOrderDetail(orderDetailTest, item.Quantity);
                             }
                         }
-                        if (count1==0)
+
+                        if (count1 == 0)
                         {
                             foreach (var item5 in a)
                             {
@@ -50,22 +58,27 @@ namespace Application.Features.OrderFeatures.Commands
                                 order.BookId = item5.BookId;
                                 var orderId = await _orderRepository.AddOrder(order, item5.Quantity);
                                 var price = _orderRepository.getPriceByBookId(item5.BookId);
-                                if (orderId !=-1)
+                                if (orderId != -1)
                                 {
                                     var orderDetail = new OrderDetail();
-                                    orderDetail.OrderId =orderId;
-                                    orderDetail.Quantity =item5.Quantity;
-                                    orderDetail.UnitPrice =price*item5.Quantity;
+                                    orderDetail.OrderId = orderId;
+                                    orderDetail.Quantity = item5.Quantity;
+                                    orderDetail.UnitPrice = price * item5.Quantity;
                                     orderDetail.CheckPaid = 0;
                                     var orderDetailId = await _orderDetailRepository.AddOrderDetail(orderDetail);
                                 }
                                 else return "maybe the quantity is not enough";
                             }
+
                             return "add compelete";
                         }
                     }
                 }
-                catch (Exception ex) { return "maybe the quantity is not enough  "; }
+                catch (Exception ex)
+                {
+                    return "maybe the quantity is not enough  ";
+                }
+
                 return "finish";
                 //_storageRepository.HandleQuantityStorage(order.BookId, command.Quantity);
             }

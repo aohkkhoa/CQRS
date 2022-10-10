@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Wrapper;
 
 namespace Application.Interfaces
 {
@@ -39,9 +40,17 @@ namespace Application.Interfaces
         /// <summary>
         /// thêm số lượng sách trong kho
         /// </summary>
-        /// <param name="BookName">tên sách</param>
+        /// <param name="bookName">tên sách</param>
         /// <param name="quantity">số lượng sách cần thêm</param>
         /// <returns></returns>
-        Task<BookInformation> AddQuantity(string BookName, int quantity);
+        Task<BookInformation> AddQuantity(string bookName, int quantity);
+
+        /*int FindBookByAuthor(string author);*/
+        /// <summary>
+        /// tìm sách theo tên tác giả
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        Task<IResult<Book>> GetBookByAuthor(string author);
     }
 }

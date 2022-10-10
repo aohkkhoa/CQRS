@@ -82,3 +82,7 @@ D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\Shared.pdb
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.dll
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
 D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\MailKit.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\MimeKit.dll
+D:\dotnet\CQRSdemo1\WebApi\bin\Debug\net6.0\BouncyCastle.Crypto.dll

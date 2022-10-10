@@ -1,5 +1,10 @@
-﻿using Domain.Models.Entities;
+﻿using Application.Interfaces;
+using BookManagement2.Models.Entities;
+using Domain.Models.Entities;
+using Domain.Models.EntityTest;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Persistence.Context
 {
@@ -17,12 +22,17 @@ namespace Persistence.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Storage> Storages { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Test> Tests { get; set; }
 
 
         public async Task<int> SaveChanges()
         {
             return await base.SaveChangesAsync();
         }
+        
+
     }
 }
 

@@ -6,24 +6,26 @@ namespace Application.Features.StorageFeatures.Commands
     public class DeleteCategoryCommand : IRequest<string>
     {
         public int categoryId { get; set; }
+    }
 
-        public class DelegateCategoryCommandHandle : IRequestHandler<DeleteCategoryCommand, string>
+    public class DelegateCategoryCommandHandle : IRequestHandler<DeleteCategoryCommand, string>
+    {
+        private readonly ICategoryRepository _categoryRepository;
+
+        public DelegateCategoryCommandHandle(ICategoryRepository categoryRepository)
         {
-            private readonly ICategoryRepository _categoryRepository;
+            _categoryRepository = categoryRepository;
+        }
 
-            public DelegateCategoryCommandHandle(ICategoryRepository categoryRepository)
+        public Task<string> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        {
+            var result = _categoryRepository.DeleteCategory(request.categoryId);
+            if (result == 1)
             {
-                _categoryRepository=categoryRepository;
+                return Task.FromResult("this category has many book");
             }
-            public Task<string> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-            {
-               var result = _categoryRepository.DeleteCategory(request.categoryId);
-                if(result == 1)
-                {
-                    return Task.FromResult("this category has many book");
-                }
-               return Task.FromResult("haha");
-            }
+
+            return Task.FromResult("haha");
         }
     }
 }
