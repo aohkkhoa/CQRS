@@ -5,6 +5,7 @@ using Domain.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Wrapper;
 
 namespace WebApi.Controllers
 {
@@ -17,7 +18,7 @@ namespace WebApi.Controllers
         public CategoryController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetAll1()
+        public async Task<Result<IEnumerable<Category>>> GetAll()
         {
             return await _mediator.Send(new GetAllCategoryQuery());
         }

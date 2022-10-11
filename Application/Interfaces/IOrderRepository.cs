@@ -1,5 +1,6 @@
 ﻿using Domain.Models.DTO;
 using Domain.Models.Entities;
+using Shared.Wrapper;
 
 namespace Application.Interfaces
 {
@@ -12,7 +13,7 @@ namespace Application.Interfaces
         /// <param name="order"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        Task<int> AddOrder(Order order, int quantity);
+        Task<Result<Order>> AddOrder(Order order, int quantity);
 
         /// <summary>
         /// lấy sách by id
@@ -27,14 +28,14 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="cusName"></param>
         /// <returns></returns>
-        Task<List<OrderInformation>> getAllOrderInformation(string cusName);
+        Task<List<OrderInformation>> getAllOrderInformation(int cusName);
 
         /// <summary>
         /// lấy order cần thanh toán (check paid = 0)
         /// </summary>
         /// <param name="cusName">order của khách nào</param>
         /// <returns></returns>
-        Task<List<OrderInformation>> getAllOrderWillPay(string cusName);
+        Task<List<OrderInformation>> getAllOrderWillPay(int customerId);
 
         /// <summary>
         /// tính tổng tiền cần thanh toán của khách

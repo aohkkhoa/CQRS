@@ -7,7 +7,7 @@ namespace Application.Validators.Features.Books.Commands
     {
         public CreateBookCommandValidator()
         {
-            RuleFor(request => request.createBookViewModel.Author)
+            RuleFor(request => request.CreateBookViewModel.Author)
                 .Must(x => !string.IsNullOrWhiteSpace(x)).OverridePropertyName(nameof(CreateBookViewModel.Author))
                 .WithMessage(x => "{PropertyName} is required, please input it!");
         }

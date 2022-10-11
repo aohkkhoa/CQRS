@@ -1,10 +1,10 @@
-﻿using Application.Features.CategoryFeatures.Queries;
-using Application.Features.OrderFeatures.Commands;
+﻿using Application.Features.OrderFeatures.Commands;
 using Application.Features.OrderFeatures.Queries;
 using Domain.Models.DTO;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Wrapper;
+using IResult = Shared.Wrapper.IResult;
 
 namespace WebApi.Controllers
 {
@@ -21,26 +21,29 @@ namespace WebApi.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
-        [HttpGet("{cusName}")]
-        public async Task<IEnumerable<OrderInformation>> GetAll1(string cusName)
+
+        [HttpGet("{customerId}")]
+        public async Task<Result<IEnumerable<OrderInformation>>> GetAllOrderInformation(int customerId)
         {
-            return await _mediator.Send(new GetAllOrderInformationQuery { CustomerName = cusName });
-        }
-        [HttpGet("total/{customerName}")]
-        public async Task<float> SeeBeforePay(string customerName)
-        {
-            return await _mediator.Send(new GetTotalPriceWillPayQuery { CustomerName = customerName });
-        }
-        [HttpGet("orderWillPay/{customerName}")]
-        public async Task<List<OrderInformation>> OrderBeforePay(string customerName)
-        {
-            return await _mediator.Send(new GetOrderWillPayQuery { CustomerName = customerName });
+            return await _mediator.Send(new GetAllOrderInformationQuery { CustomerId = customerId });
         }
 
-        [HttpGet("paid/{cusName}")]
-        public async Task<int> paid(string cusName)
+        [HttpGet("total/{customerId}")]
+        public async Task<IResult<float>> SeeBeforePay(int customerId)
         {
-            return await _mediator.Send(new UpdateCheckPaidOrderComand { CustomerName = cusName });
+            return await _mediator.Send(new GetTotalPriceWillPayQuery { CustomerId = customerId });
+        }
+
+        [HttpGet("orderWillPay/{customerId}")]
+        public async Task<IResult<List<OrderInformation>>> OrderBeforePay(int customerId)
+        {
+            return await _mediator.Send(new GetOrderWillPayQuery { CustomerId = customerId });
+        }
+
+        [HttpGet("paid/{customerId}")]
+        public async Task<IResult> Paid(int customerId)
+        {
+            return await _mediator.Send(new UpdateCheckPaidOrderCommand { CustomerId = customerId });
         }
     }
 }

@@ -12,7 +12,14 @@ namespace Application.Interfaces
     public interface IBookRepository
     {
 
-
+        /// <summary>
+        /// xem story bang bookid
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
+        Task<Storage> GetStorageByBookId(int bookId);
+        
+        
         /// <summary>
         /// liệt kê danh sách Book
         /// </summary>

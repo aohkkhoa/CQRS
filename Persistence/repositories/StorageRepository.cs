@@ -30,7 +30,7 @@ namespace Persistence.repositories
 
         public string HandleQuantityStorage(int bookId, int quantity)
         {
-            var item = _context.Storages.Where(a => a.BookId == bookId).FirstOrDefault();
+            var item = _context.Storages.FirstOrDefault(a => a.BookId == bookId);
             if (item.Quantity < quantity) { Console.WriteLine("notok"); return "NotOk"; }
             /*item.Quantity = item.Quantity-quantity;
             await _context.SaveChanges();*/

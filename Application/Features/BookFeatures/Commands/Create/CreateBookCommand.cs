@@ -8,7 +8,7 @@ namespace Application.Features.BookFeatures.Commands.Create
 {
     public class CreateBookCommand : IRequest<Result<BookInformation>>
     {
-        public CreateBookViewModel createBookViewModel { get; set; }
+        public CreateBookViewModel CreateBookViewModel { get; set; }
     }
 
     public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Result<BookInformation>>
@@ -23,28 +23,28 @@ namespace Application.Features.BookFeatures.Commands.Create
         public async Task<Result<BookInformation>> Handle(CreateBookCommand command,
             CancellationToken cancellationToken)
         {
-            if (_bookRepository.FindBookByName(command.createBookViewModel.Title) == 0)
+            if (_bookRepository.FindBookByName(command.CreateBookViewModel.Title) == 0)
             {
-                var a = _bookRepository.GetBookByAuthor(command.createBookViewModel.Author);
-                if (a.Result.Succeeded)
+                var bookByAuthor = await _bookRepository.GetBookByAuthor(command.CreateBookViewModel.Author);
+                if (bookByAuthor.Succeeded)
                 {
                     return await Result<BookInformation>.FailAsync("book of this author is exist");
                 }
 
-                var bookResult = await _bookRepository.AddQuantity(command.createBookViewModel.Title,
-                    command.createBookViewModel.Quantity);
+                var bookResult = await _bookRepository.AddQuantity(command.CreateBookViewModel.Title,
+                    command.CreateBookViewModel.Quantity);
                 return await Result<BookInformation>.SuccessAsync(bookResult, "Just Update Quantity");
             }
 
             var book = new Book
             {
-                Title = command.createBookViewModel.Title,
-                Author = command.createBookViewModel.Author,
-                Description = command.createBookViewModel.Description,
-                Price = command.createBookViewModel.Price,
-                CategoryId = command.createBookViewModel.CategoryId
+                Title = command.CreateBookViewModel.Title,
+                Author = command.CreateBookViewModel.Author,
+                Description = command.CreateBookViewModel.Description,
+                Price = command.CreateBookViewModel.Price,
+                CategoryId = command.CreateBookViewModel.CategoryId
             };
-            var result = await _bookRepository.AddBook(book, command.createBookViewModel.Quantity);
+            var result = await _bookRepository.AddBook(book, command.CreateBookViewModel.Quantity);
             return await Result<BookInformation>.SuccessAsync(result, "Add Complete");
         }
     }

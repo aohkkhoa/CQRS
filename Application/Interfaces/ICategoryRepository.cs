@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Entities;
+using Shared.Wrapper;
 
 namespace Application.Interfaces
 {
@@ -10,7 +11,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns></returns>
-        int DeleteCategory(int categoryId);
+        /*int DeleteCategory(int categoryId);*/
 
 
         /// <summary>
@@ -18,5 +19,12 @@ namespace Application.Interfaces
         /// </summary>
         /// <returns></returns>
         IEnumerable<Category> GetAllCategories();
+        /// <summary>
+        /// xóa loại hàng
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        Task<Result<int>> DeleteCategory(int categoryId);
+
     }
 }

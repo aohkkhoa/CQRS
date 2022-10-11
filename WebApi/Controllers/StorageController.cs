@@ -9,11 +9,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StorageContronller : ControllerBase
+    public class StorageController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public StorageContronller(IMediator mediator) => _mediator = mediator;
+        public StorageController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
         public async Task<IEnumerable<StorageUnit>> GetAll()

@@ -1,25 +1,27 @@
 ﻿using Application.Interfaces;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.OrderFeatures.Commands
 {
-    public class DeleteOrderDetailCommand : IRequest<int>
+    public class DeleteOrderDetailCommand : IRequest<IResult>
     {
-        public int OrderDeteailId { get; set; }
+        public int OrderDetailId { get; set; }
     }
-    public class DeleteOrderDetailCommandHandler : IRequestHandler<DeleteOrderDetailCommand, int>
+
+    public class DeleteOrderDetailCommandHandler : IRequestHandler<DeleteOrderDetailCommand, IResult>
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
-        public DeleteOrderDetailCommandHandler(IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
+
+        public DeleteOrderDetailCommandHandler(IOrderDetailRepository orderDetailRepository)
         {
-            _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
         }
-        public async Task<int> Handle(DeleteOrderDetailCommand command, CancellationToken cancellationToken)
+
+        public async Task<IResult> Handle(DeleteOrderDetailCommand command, CancellationToken cancellationToken)
         {
-            var orderDetailId = await _orderDetailRepository.DeleteOrderDetailById(command.OrderDeteailId);
-            return 200;
+            await _orderDetailRepository.DeleteOrderDetailById(command.OrderDetailId);
+            return await Result.SuccessAsync("Delete Complete");
         }
     }
 }

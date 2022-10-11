@@ -23,7 +23,7 @@ namespace Application.Features.BookFeatures.Queries
         {
 
             var productList = await _bookRepository.GetBooks();
-            if (productList.Count() == 0)
+            if (!productList.Any())
             {
                 throw new ApiException("null roi coi lai du lieu trong sql");
             }

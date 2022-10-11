@@ -1,14 +1,15 @@
 ﻿using Application.Interfaces;
 using Domain.Models.DTO;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.OrderFeatures.Queries
 {
-    public class GetOrderWillPayQuery : IRequest<List<OrderInformation>>
+    public class GetOrderWillPayQuery : IRequest<IResult<List<OrderInformation>>>
     {
-        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
     }
-    public class GetOrderWillPayQueryHandler : IRequestHandler<GetOrderWillPayQuery, List<OrderInformation>>
+    public class GetOrderWillPayQueryHandler : IRequestHandler<GetOrderWillPayQuery, IResult<List<OrderInformation>>>
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -17,10 +18,10 @@ namespace Application.Features.OrderFeatures.Queries
             _orderRepository= orderRepository;
         }
 
-        public async Task<List<OrderInformation>> Handle(GetOrderWillPayQuery query, CancellationToken cancellationToken)
+        public async Task<IResult<List<OrderInformation>>> Handle(GetOrderWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerName);
-            return productList;
+            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerId);
+            return await Result<List<OrderInformation>>.SuccessAsync(productList,"Ok") ;
 
         }
     }

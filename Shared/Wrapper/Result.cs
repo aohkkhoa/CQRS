@@ -138,7 +138,6 @@
         {
             return Task.FromResult(Success(data));
         }
-
         public static Task<Result<T>> SuccessAsync(T data, string message)
         {
             return Task.FromResult(Success(data, message));

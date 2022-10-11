@@ -28,11 +28,11 @@ namespace Persistence.repositories
 
         public async Task<int> DeleteOrderDetailById(int orderDeteailId)
         {
-            var item =  _context.OrderDetails.Where(a => a.OrderDetailId == orderDeteailId).FirstOrDefault();
+            var item =  _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDeteailId);
             if (item == null) return default;
             _context.OrderDetails.Remove(item);
             await _context.SaveChangesAsync();
-            var order =  _context.Orders.Where(a => a.OrderId == item.OrderId).FirstOrDefault();
+            var order =  _context.Orders.FirstOrDefault(a => a.OrderId == item.OrderId);
             if (order == null) return default;
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
@@ -42,16 +42,16 @@ namespace Persistence.repositories
         public async Task<OrderDetail> UpdateQuantity(int orderDetailId, int quantity)
         {
 
-            var orderDetail =  _context.OrderDetails.Where(a => a.OrderDetailId == orderDetailId).FirstOrDefault();
+            var orderDetail =  _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDetailId);
             if (orderDetail == null)
             {
                 return null;
             }
             else
             {
-                var order = _context.Orders.Where(a => a.OrderId == orderDetail.OrderId).FirstOrDefault();
+                var order = _context.Orders.FirstOrDefault(a => a.OrderId == orderDetail.OrderId);
 
-                var book = _context.Books.Where(a => a.Id == order.BookId).FirstOrDefault();
+                var book = _context.Books.FirstOrDefault(a => a.Id == order.BookId);
                 
                 orderDetail.Quantity = quantity;
                 orderDetail.UnitPrice = quantity * book.Price;

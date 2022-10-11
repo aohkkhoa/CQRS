@@ -2,14 +2,17 @@
 using Domain.Models.DTO;
 using Domain.Models.Entities;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.OrderFeatures.Commands
 {
-    public class CreateOrderCommand : IRequest<string>
+    public class CreateOrderCommand : IRequest<IResult>
     {
+        public int customerId { get; set; }
         public List<OrderCreate> OrderCreate { get; set; }
 
-        public class CreateBookCommandHandler : IRequestHandler<CreateOrderCommand, string>
+
+        public class CreateBookCommandHandler : IRequestHandler<CreateOrderCommand, IResult>
         {
             private readonly IOrderRepository _orderRepository;
             private readonly IOrderDetailRepository _orderDetailRepository;
@@ -20,66 +23,70 @@ namespace Application.Features.OrderFeatures.Commands
                 _orderDetailRepository = orderDetailRepository;
             }
 
-            public async Task<string> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+            public async Task<IResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
             {
                 try
                 {
-                    var test = await _orderRepository.getAllOrderWillPay("customerA");
+                    var checkAnyOrder = await _orderRepository.getAllOrderWillPay(1);
                     foreach (var item in command.OrderCreate)
                     {
-                        List<OrderCreate> a = new List<OrderCreate>()
+                        List<OrderCreate> orderCreate = new List<OrderCreate>()
                         {
-                            new OrderCreate()
+                            new()
                             {
                                 BookId = item.BookId,
                                 CustomerId = item.CustomerId,
                                 Quantity = item.Quantity,
                             }
                         };
-                        if (test.Count() == 0) a = command.OrderCreate;
-                        var count1 = 0;
-                        foreach (var item2 in test)
+                        if (!checkAnyOrder.Any()) orderCreate = command.OrderCreate;
+                        var count = 0;
+                        foreach (var item2 in checkAnyOrder)
                         {
                             if (item.BookId == item2.BookId)
                             {
-                                count1++;
+                                count++;
                                 var orderDetailTest = _orderRepository.findOrderDetailByBookId(item.BookId);
-                                if (orderDetailTest.Count() != 0)
+                                if (orderDetailTest.Count != 0)
                                     await _orderRepository.addQuantityOfOrderDetail(orderDetailTest, item.Quantity);
                             }
                         }
 
-                        if (count1 == 0)
+                        if (count == 0)
                         {
-                            foreach (var item5 in a)
+                            foreach (var item2 in orderCreate)
                             {
-                                var order = new Order();
-                                order.CustomerId = item5.CustomerId;
-                                order.BookId = item5.BookId;
-                                var orderId = await _orderRepository.AddOrder(order, item5.Quantity);
-                                var price = _orderRepository.getPriceByBookId(item5.BookId);
-                                if (orderId != -1)
+                                var order = new Order
                                 {
-                                    var orderDetail = new OrderDetail();
-                                    orderDetail.OrderId = orderId;
-                                    orderDetail.Quantity = item5.Quantity;
-                                    orderDetail.UnitPrice = price * item5.Quantity;
-                                    orderDetail.CheckPaid = 0;
+                                    CustomerId = item2.CustomerId,
+                                    BookId = item2.BookId
+                                };
+                                var orderResult = await _orderRepository.AddOrder(order, item2.Quantity);
+                                var price = _orderRepository.getPriceByBookId(item2.BookId);
+                                if (orderResult.Succeeded)
+                                {
+                                    var orderDetail = new OrderDetail
+                                    {
+                                        OrderId = orderResult.Data.OrderId,
+                                        Quantity = item2.Quantity,
+                                        UnitPrice = price * item2.Quantity,
+                                        CheckPaid = 0
+                                    };
                                     var orderDetailId = await _orderDetailRepository.AddOrderDetail(orderDetail);
                                 }
-                                else return "maybe the quantity is not enough";
+                                else return await Result.FailAsync(orderResult.Messages);
                             }
 
-                            return "add compelete";
+                            return await Result.SuccessAsync("Add Complete!");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    return "maybe the quantity is not enough  ";
+                    return await Result.FailAsync("maybe the quantity is not enough " + ex);
                 }
 
-                return "finish";
+                return await Result.SuccessAsync("finish");
                 //_storageRepository.HandleQuantityStorage(order.BookId, command.Quantity);
             }
         }

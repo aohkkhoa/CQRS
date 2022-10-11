@@ -1,27 +1,28 @@
 ﻿using Application.Interfaces;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.OrderFeatures.Queries
 {
-    public class GetTotalPriceWillPayQuery : IRequest<float>
+    public class GetTotalPriceWillPayQuery : IRequest<IResult<float>>
     {
-        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
     }
-    public class GetTotalPriceWillPayQueryHandler : IRequestHandler<GetTotalPriceWillPayQuery, float>
+
+    public class GetTotalPriceWillPayQueryHandler : IRequestHandler<GetTotalPriceWillPayQuery, IResult<float>>
     {
         private readonly IOrderRepository _orderRepository;
 
         public GetTotalPriceWillPayQueryHandler(IOrderRepository context)
         {
-            _orderRepository=context;
+            _orderRepository = context;
         }
 
-        public async Task<float> Handle(GetTotalPriceWillPayQuery query, CancellationToken cancellationToken)
+        public async Task<IResult<float>> Handle(GetTotalPriceWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerName);
+            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerId);
             var totalPrice = _orderRepository.getTotalPrice(productList);
-            return totalPrice;
-           
+            return await Result<float>.SuccessAsync(totalPrice,"OK") ;
         }
     }
 }

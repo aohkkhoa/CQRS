@@ -39,47 +39,35 @@ namespace Persistence.repositories
             return bookInfo;
         }
 
-        private Task<Book> GetBookByName(string bookName)
+        public Task<Book> GetBookByName(string bookName)
         {
             var book = _context.Books.FirstOrDefault(x => x.Title == bookName);
             if (book == null)
-            {
                 throw new ApiException("Book not found!");
-            }
-
             return Task.FromResult(book);
         }
 
-        private Task<Category> GetCategoryById(int categoryId)
+        public Task<Category> GetCategoryById(int categoryId)
         {
             var category = _context.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
             if (category == null)
-            {
                 throw new ApiException("Category not found!");
-            }
-
             return Task.FromResult(category);
         }
 
-        private Task<Storage> GetStorageByBookId(int bookId)
+        public Task<Storage> GetStorageByBookId(int bookId)
         {
             var storage = _context.Storages.FirstOrDefault(x => x.BookId == bookId);
             if (storage == null)
-            {
                 throw new ApiException("Storage not found!");
-            }
-
             return Task.FromResult(storage);
         }
 
         public async Task<BookInformation> AddQuantity(string bookName, int quantity)
         {
             var book = GetBookByName(bookName);
-
             var category = GetCategoryById(book.Result.CategoryId);
-
-            var storage = GetStorageByBookId(book.Id);
-
+            var storage = GetStorageByBookId(book.Result.Id);
             storage.Result.Quantity = storage.Result.Quantity + quantity;
             await _context.SaveChanges();
             var bookInfo = new BookInformation()
@@ -87,17 +75,17 @@ namespace Persistence.repositories
                 BookId = book.Id,
                 Category = category.Result.CategoryName,
                 Title = book.Result.Title,
-                Quantity = storage.Result.Quantity
+                Quantity = storage.Result.Quantity,
+                Author = book.Result.Author
             };
             return bookInfo;
         }
-
         public async Task<IResult<Book>> GetBookByAuthor(string author)
         {
             var book = _context.Books.FirstOrDefault(a => a.Author == author);
-            if (book == null)
-                throw new ApiException("Book not found!");
-            return await Result<Book>.SuccessAsync(book);
+            if (book != null)
+                return await Result<Book>.SuccessAsync(book);
+            return await Result<Book>.FailAsync();
         }
         /*public int FindBookByAuthor(string author)
         {

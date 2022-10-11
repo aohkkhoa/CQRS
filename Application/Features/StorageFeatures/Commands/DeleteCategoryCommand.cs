@@ -1,14 +1,15 @@
 ﻿using Application.Interfaces;
 using MediatR;
+using Shared.Wrapper;
 
 namespace Application.Features.StorageFeatures.Commands
 {
-    public class DeleteCategoryCommand : IRequest<string>
+    public class DeleteCategoryCommand : IRequest<IResult>
     {
-        public int categoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 
-    public class DelegateCategoryCommandHandle : IRequestHandler<DeleteCategoryCommand, string>
+    public class DelegateCategoryCommandHandle : IRequestHandler<DeleteCategoryCommand, IResult>
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -17,15 +18,14 @@ namespace Application.Features.StorageFeatures.Commands
             _categoryRepository = categoryRepository;
         }
 
-        public Task<string> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public Task<IResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var result = _categoryRepository.DeleteCategory(request.categoryId);
-            if (result == 1)
+            var result = _categoryRepository.DeleteCategory(request.CategoryId);
+            if (!result.Result.Succeeded && result.Result.Messages.Count == 1)
             {
-                return Task.FromResult("this category has many book");
+                return Result.FailAsync("This category has many book");
             }
-
-            return Task.FromResult("haha");
+            return Result.SuccessAsync("DeleteOk");
         }
     }
 }
