@@ -1,43 +1,30 @@
 ﻿using Application.Interfaces;
-using BookManagement2.Models.Entities;
-using Domain.Models.DTO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
 using Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using Application.Exceptions;
-using WebApi;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Domain.Models.Entities;
 
 namespace Persistence.Repositories
 {
     public class AuthRepository : IAuthRepository
     {
-
         private readonly ApplicationDbContext _context;
 
         private readonly IEmailRepository _emailRepository;
-        
+
 
         public AuthRepository(ApplicationDbContext context, IEmailRepository emailRepository)
         {
-            _context=context;
-            _emailRepository=emailRepository;
+            _context = context;
+            _emailRepository = emailRepository;
         }
 
         public User LoginAsync(string userName, string password)
         {
             var user = (from b in _context.Users
-                        where b.userName == userName
-                        select b).FirstOrDefault();
+                where b.userName == userName
+                select b).FirstOrDefault();
 
             if (user == null)
             {
@@ -50,6 +37,7 @@ namespace Persistence.Repositories
             {
                 throw new ApiException("Username or pass was invalid");
             }
+
             return user;
         }
 
@@ -61,6 +49,7 @@ namespace Persistence.Repositories
                 var compute = hmac.ComputeHash(Encoding.UTF8.GetBytes(passWord));
                 result = compute.SequenceEqual(user.PasswordHash);
             }
+
             return result;
         }
 
@@ -70,7 +59,8 @@ namespace Persistence.Repositories
             await _context.SaveChanges();
             return user;
         }
-        private string randomTokenString()
+
+        private string RandomTokenString()
         {
             using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
             var randomBytes = new byte[40];
@@ -78,21 +68,22 @@ namespace Persistence.Repositories
             // convert random bytes to hex string
             return BitConverter.ToString(randomBytes).Replace("-", "");
         }
+
         public void ForgotPassWord(string email)
         {
             var a = _emailRepository.randomTokenString();
             _emailRepository.Send(
-               to: email,
-               subject: "Sign-up Verification API - Reset Password",
-               html: $@"<h4>Reset Password Email</h4>
+                to: email,
+                subject: "Sign-up Verification API - Reset Password",
+                html: $@"<h4>Reset Password Email</h4>
                          {a}"
-           );
+            );
         }
 
         public async Task<bool> ResetPassWord(string token, string newPassword)
         {
             var a = _context.Users.FirstOrDefault(a => a.ResetToken == token);
-            if(a!=null)
+            if (a != null)
             {
                 a.ResetToken = "";
                 using (HMACSHA512? hmac = new HMACSHA512())
@@ -100,10 +91,34 @@ namespace Persistence.Repositories
                     a.PasswordSalt = hmac.Key;
                     a.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                 }
+
                 await _context.SaveChanges();
                 return true;
             }
+
             return false;
+        }
+
+        public List<string> GetRoleByUser(int userId)
+        {
+            var listRoleId = _context.UserRoles.Where(a => a.UserId == userId).Select(a => a.RoleId).ToList();
+            var listRoleString = (from lrs in _context.Roles
+                where listRoleId.Contains(lrs.Id)
+                select lrs.RoleName).ToList();
+            if (listRoleId == null) throw new ApiException("Role Not Found!");
+            return listRoleString;
+        }
+
+        public List<string> GetMenuByUser(List<string> roleName)
+        {
+            var a = (from m in _context.Menus
+                join p in _context.Permissions on m.Id equals p.MenuId
+                join ur in _context.UserRoles on p.RoleId equals ur.RoleId
+                join r in _context.Roles on ur.RoleId equals r.Id
+                where roleName.Contains(r.RoleName)
+                select m.Name).ToList();
+            if (a == null) throw new ApiException("Menu Not Found!");
+            return a;
         }
     }
 }

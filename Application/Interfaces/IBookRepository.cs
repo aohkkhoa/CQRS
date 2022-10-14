@@ -1,25 +1,19 @@
 ﻿using Domain.Models.DTO;
 using Domain.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Shared.Wrapper;
 
 namespace Application.Interfaces
 {
     public interface IBookRepository
     {
-
         /// <summary>
         /// xem story bang bookid
         /// </summary>
         /// <param name="bookId"></param>
         /// <returns></returns>
         Task<Storage> GetStorageByBookId(int bookId);
-        
-        
+
+
         /// <summary>
         /// liệt kê danh sách Book
         /// </summary>

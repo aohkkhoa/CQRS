@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookManagement2.Models.Entities
+namespace Domain.Models.Entities
 {
     [Table("UserTable")]
     public class User
@@ -13,6 +13,6 @@ namespace BookManagement2.Models.Entities
         public byte[] PasswordHash { get; set; }
         public string address { get; set; }
         public string phone { get; set; }
-        public string ResetToken { get; set; }
+        public string? ResetToken { get; set; }
     }
 }

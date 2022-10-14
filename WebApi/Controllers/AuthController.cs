@@ -2,10 +2,8 @@
 using Application.Features.AuthFeatures.Commands.Update;
 using Application.Features.AuthFeatures.Queries.Login;
 using Application.Features.BookFeatures.Commands.Create;
-using Application.Features.OrderFeatures.Commands;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -43,6 +41,7 @@ namespace WebApi.Controllers
             return Ok(new { message = "Please check your email for password reset instructions" });*/
             return Ok(await _mediator.Send(command));
         }
+
         [HttpPost("Reset-password")]
         public async Task<IActionResult> ResetPassWord(ResetPassCommand command)
         {
@@ -50,6 +49,5 @@ namespace WebApi.Controllers
             return Ok(new { message = "Please check your email for password reset instructions" });*/
             return Ok(await _mediator.Send(command));
         }
-
     }
 }

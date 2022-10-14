@@ -80,6 +80,7 @@ namespace Persistence.repositories
             };
             return bookInfo;
         }
+
         public async Task<IResult<Book>> GetBookByAuthor(string author)
         {
             var book = _context.Books.FirstOrDefault(a => a.Author == author);
@@ -87,12 +88,6 @@ namespace Persistence.repositories
                 return await Result<Book>.SuccessAsync(book);
             return await Result<Book>.FailAsync();
         }
-        /*public int FindBookByAuthor(string author)
-        {
-            var book = GetBookByAuthor(author);
-            
-            return -1;
-        }*/
 
         public int FindBookByName(string bookName)
         {
@@ -102,7 +97,7 @@ namespace Persistence.repositories
 
         public Task<List<BookInformation>> GetBooks()
         {
-            var books = (from b in _context.Books
+            var books =  (from b in _context.Books
                 join c in _context.Categories on b.CategoryId equals c.CategoryId
                 join s in _context.Storages on b.Id equals s.BookId
                 orderby b.Id descending
@@ -114,13 +109,7 @@ namespace Persistence.repositories
                     Author = b.Author,
                     Quantity = s.Quantity
                 }).ToList();
-            //var productList =  await _context.Books.ToListAsync();
             return Task.FromResult(books);
         }
-        /*public Async List<Book> GetBooks()
-{
-   var productList = await _context.Books.ToListAsync();
-   return  await _context.Books.ToList();
-}*/
     }
 }

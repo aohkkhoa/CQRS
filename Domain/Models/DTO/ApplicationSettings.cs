@@ -1,4 +1,4 @@
-﻿namespace WebApi
+﻿namespace Domain.Models.DTO
 {
     public class ApplicationSettings
     {

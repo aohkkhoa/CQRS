@@ -1,17 +1,13 @@
-﻿using Application.Interfaces;
-using BookManagement2.Models.Entities;
-using Domain.Models.Entities;
+﻿using Domain.Models.Entities;
 using Domain.Models.EntityTest;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Persistence.Context
 {
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-           : base(options)
+            : base(options)
         {
         }
 
@@ -23,16 +19,16 @@ namespace Persistence.Context
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Storage> Storages { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Test> Tests { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Menu> Menus { get; set; }
 
 
         public async Task<int> SaveChanges()
         {
             return await base.SaveChangesAsync();
         }
-        
-
     }
 }
-

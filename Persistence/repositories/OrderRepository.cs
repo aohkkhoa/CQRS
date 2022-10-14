@@ -185,7 +185,7 @@ namespace Persistence.repositories
                 storage.Result.Quantity -= orderDetails.Quantity;
             }
 
-            await _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return "complete";
         }
     }

@@ -22,26 +22,6 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BookManagement2.Models.Entities.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("BookManagement2.Models.Entities.User", b =>
                 {
                     b.Property<int>("userId")
@@ -59,7 +39,6 @@ namespace Persistence.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("ResetToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("address")
@@ -76,7 +55,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("userId");
 
-                    b.ToTable("UserTable");
+                    b.ToTable("UserTable", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Book", b =>
@@ -91,7 +70,7 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -107,7 +86,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Book");
+                    b.ToTable("Book", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Category", b =>
@@ -124,7 +103,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Customer", b =>
@@ -141,7 +120,27 @@ namespace Persistence.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menu", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Order", b =>
@@ -160,7 +159,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("OrderMain");
+                    b.ToTable("OrderMain", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.OrderDetail", b =>
@@ -185,7 +184,62 @@ namespace Persistence.Migrations
 
                     b.HasKey("OrderDetailId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetail", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Entities.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("CanAccess")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanAdd")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEdit")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permission", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Storage", b =>
@@ -204,7 +258,26 @@ namespace Persistence.Migrations
 
                     b.HasKey("StorageId");
 
-                    b.ToTable("Storage");
+                    b.ToTable("Storage", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Entities.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRole", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.EntityTest.Test", b =>
@@ -221,7 +294,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestSeeding");
+                    b.ToTable("TestSeeding", (string)null);
                 });
 #pragma warning restore 612, 618
         }

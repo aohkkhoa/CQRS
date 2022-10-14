@@ -72,7 +72,7 @@ namespace Application.Features.OrderFeatures.Commands
                                         UnitPrice = price * item2.Quantity,
                                         CheckPaid = 0
                                     };
-                                    var orderDetailId = await _orderDetailRepository.AddOrderDetail(orderDetail);
+                                    await _orderDetailRepository.AddOrderDetail(orderDetail);
                                 }
                                 else return await Result.FailAsync(orderResult.Messages);
                             }
@@ -83,10 +83,10 @@ namespace Application.Features.OrderFeatures.Commands
                 }
                 catch (Exception ex)
                 {
-                    return await Result.FailAsync("maybe the quantity is not enough " + ex);
+                    return await Result.FailAsync("Maybe the quantity is not enough " + ex);
                 }
 
-                return await Result.SuccessAsync("finish");
+                return await Result.SuccessAsync("Finish");
                 //_storageRepository.HandleQuantityStorage(order.BookId, command.Quantity);
             }
         }

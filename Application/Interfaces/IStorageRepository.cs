@@ -4,7 +4,6 @@ namespace Application.Interfaces
 {
     public interface IStorageRepository
     {
-
         /// <summary>
         /// kiểm tra số lượng trong kho còn để order hay không
         /// </summary>

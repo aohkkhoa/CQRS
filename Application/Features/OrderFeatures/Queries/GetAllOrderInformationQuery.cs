@@ -11,7 +11,8 @@ namespace Application.Features.OrderFeatures.Queries
     }
 
     public class
-        GetAllOrderInformationQueryHandler : IRequestHandler<GetAllOrderInformationQuery, Result<IEnumerable<OrderInformation>>>
+        GetAllOrderInformationQueryHandler : IRequestHandler<GetAllOrderInformationQuery,
+            Result<IEnumerable<OrderInformation>>>
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -24,7 +25,7 @@ namespace Application.Features.OrderFeatures.Queries
             CancellationToken cancellationToken)
         {
             var productList = await _orderRepository.getAllOrderInformation(query.CustomerId);
-            return await Result<IEnumerable<OrderInformation>>.SuccessAsync(productList,"Ok");
+            return await Result<IEnumerable<OrderInformation>>.SuccessAsync(productList, "Ok");
         }
     }
 }

@@ -4,20 +4,19 @@ namespace Application.Interfaces
 {
     public interface IOrderDetailRepository
     {
-
         /// <summary>
         /// thêm thông tin order (quantity)
         /// </summary>
-        /// <param name="orderDetal"></param>
+        /// <param name="orderDetail"></param>
         /// <returns></returns>
-        Task<int> AddOrderDetail(OrderDetail orderDetal);
+        Task<int> AddOrderDetail(OrderDetail orderDetail);
 
         /// <summary>
         /// xóa order detail 
         /// </summary>
-        /// <param name="orderDeteailId"></param>
+        /// <param name="orderDetailId"></param>
         /// <returns></returns>
-        Task<int> DeleteOrderDetailById(int orderDeteailId);
+        Task<int> DeleteOrderDetailById(int orderDetailId);
 
         /// <summary>
         /// thêm số lượng vào sách của orderdetail

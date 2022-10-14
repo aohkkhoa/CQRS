@@ -25,6 +25,7 @@ namespace Application.Features.StorageFeatures.Commands
             {
                 return Result.FailAsync("This category has many book");
             }
+
             return Result.SuccessAsync("DeleteOk");
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Application.Features.OrderFeatures.Commands;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -18,6 +17,7 @@ namespace WebApi.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(DeleteOrderDetailCommand command)
         {

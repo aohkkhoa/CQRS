@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Extensions;
 using System.Text;
+using Domain.Models.DTO;
 using Persistence.Context;
 using WebApi;
 using WebApi.Middlewares;

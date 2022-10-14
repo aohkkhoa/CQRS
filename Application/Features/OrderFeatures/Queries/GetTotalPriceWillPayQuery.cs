@@ -22,7 +22,7 @@ namespace Application.Features.OrderFeatures.Queries
         {
             var productList = await _orderRepository.getAllOrderWillPay(query.CustomerId);
             var totalPrice = _orderRepository.getTotalPrice(productList);
-            return await Result<float>.SuccessAsync(totalPrice,"OK") ;
+            return await Result<float>.SuccessAsync(totalPrice, "OK");
         }
     }
 }

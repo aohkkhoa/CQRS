@@ -10,6 +10,7 @@
     <Folder Include="Features\BookFeatures\Commands\Delete\" />
     <Folder Include="Features\BookFeatures\Commands\Update\" />
     <Folder Include="Features\CategoryFeatures\Commands\" />
+    <Folder Include="Features\PermissionFeatures\Commands" />
   </ItemGroup>
 
   <ItemGroup>

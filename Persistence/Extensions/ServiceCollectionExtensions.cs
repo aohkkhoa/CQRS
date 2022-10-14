@@ -17,19 +17,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Persistence.SeedingData;
-using WebApi;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 namespace Persistence.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configuration.GetConnectionString("MyDB")));
-
         }
+
         public static IApplicationBuilder InitializeDb(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
@@ -43,6 +41,7 @@ namespace Persistence.Extensions
 
             return app;
         }
+
         public static void AddApplication(this IServiceCollection services)
         {
             var builder = WebApplication.CreateBuilder();
@@ -50,8 +49,6 @@ namespace Persistence.Extensions
             /*builder.Services.AddMediatR(typeof(GetAllBookQuery).Assembly,
                             typeof(GetAllCategoryQuery).Assembly,
                             typeof(CreateBookCommand).Assembly);*/
-
-
             /*builder.Services.AddMediatR(typeof(IBookRepository).Assembly,
                                         typeof(IOrderRepository).Assembly,
                                         typeof(IOrderDetailRepository).Assembly,
@@ -63,12 +60,15 @@ namespace Persistence.Extensions
             builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();*/
             services.AddMediatR(typeof(IBookRepository).Assembly,
-                            typeof(IOrderRepository).Assembly,
-                            typeof(IOrderDetailRepository).Assembly,
-                            typeof(IStorageRepository).Assembly,
-                            typeof(ICategoryRepository).Assembly,
-                            typeof(IAuthRepository).Assembly
-                            );
+                typeof(IOrderRepository).Assembly,
+                typeof(IOrderDetailRepository).Assembly,
+                typeof(IStorageRepository).Assembly,
+                typeof(ICategoryRepository).Assembly,
+                typeof(IAuthRepository).Assembly,
+                typeof(IPermissionRepository).Assembly,
+                typeof(IEmailRepository).Assembly,
+                typeof(ITestRepository).Assembly
+            );
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
@@ -77,31 +77,13 @@ namespace Persistence.Extensions
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
-
-
-            /* services.AddSession(options =>
-             {
-                 options.IdleTimeout = TimeSpan.FromMinutes(20);
-             });
-             services.Configure<ApplicationSettings>(
-                 configuration.GetSection("ApplicationSettings"));
-             services.AddAuthentication(x =>
-             {
-                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-             }).AddJwtBearer(x =>
-             {
-                 x.RequireHttpsMetadata = false;
-                 x.SaveToken = true;
-                 x.TokenValidationParameters = new TokenValidationParameters
-                 {
-                     ValidateIssuerSigningKey = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["ApplicationSettings:Secret"])),
-                     ValidateIssuer = false,
-                     ValidateAudience = false
-                 };
-             });*/
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Ex1", policy => policy.RequireRole("Member", "Admin"));
+                options.AddPolicy("teacher", policy => policy.RequireRole("SuperAdmin", "Admin", "Teacher"));
+            });
         }
     }
 }

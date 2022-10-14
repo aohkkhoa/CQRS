@@ -1,21 +1,15 @@
 ﻿using Application.Features.BookFeatures.Commands.Create;
 using Application.Features.BookFeatures.Queries;
-using Application.Features.CategoryFeatures.Queries;
-using Application.Validators.Features.Books.Commands;
-using BookManagement2.Models.Entities;
+using Application.Interfaces;
 using Domain.Models.DTO;
-using Domain.Models.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Context;
-using System;
+using Shared.Constant.Menu;
 using Shared.Wrapper;
+using WebApi.Attribute;
 
 namespace WebApi.Controllers
 {
@@ -23,7 +17,7 @@ namespace WebApi.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private IValidator<CreateBookCommand> _validator;
+        private readonly IValidator<CreateBookCommand> _validator;
         private readonly IMediator _mediator;
 
         public BookController(IMediator mediator, IValidator<CreateBookCommand> validator)
@@ -32,8 +26,10 @@ namespace WebApi.Controllers
             _validator = validator;
         }
 
-        [Authorize(Roles="Admin")]
+        //[Authorize(Policy= "Ex1")]
+
         [HttpGet]
+        [AuthorizeUser(MenuConstants.Menu1)]
         public async Task<Result<List<BookInformation>>> GetAll()
         {
             return await _mediator.Send(new GetAllBookQuery());
@@ -53,7 +49,6 @@ namespace WebApi.Controllers
                 // re-render the view when validation failed.
                 return result.IsValid ? Ok(result) : BadRequest(result);
             }
-
 
             return Ok(await _mediator.Send(command));
         }

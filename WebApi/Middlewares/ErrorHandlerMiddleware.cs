@@ -11,7 +11,7 @@ namespace WebApi.Middlewares
 
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
-            _next = next;   
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
@@ -43,6 +43,7 @@ namespace WebApi.Middlewares
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
+
                 var result = JsonSerializer.Serialize(responseModel);
                 await response.WriteAsync(result);
             }

@@ -1,10 +1,4 @@
-﻿using BookManagement2.Models.Entities;
-using Domain.Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Models.Entities;
 
 namespace Application.Interfaces
 {
@@ -14,5 +8,7 @@ namespace Application.Interfaces
         User LoginAsync(string userName, string password);
         Task<User> Register(User user);
         Task<Boolean> ResetPassWord(string token, string newPassword);
+        List<string> GetRoleByUser(int userId);
+        List<string> GetMenuByUser(List<string> roleName);
     }
 }

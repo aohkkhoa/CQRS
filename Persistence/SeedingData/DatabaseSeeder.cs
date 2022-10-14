@@ -26,7 +26,7 @@ public class DatabaseSeeder : IDatabaseSeeder
     {
         var test = await _repository.GetTests();
         if (test.Count != 0) return;
-         _context.Tests.Add(new Test() { Name = "test1" });
-         _context.Tests.Add(new Test() { Name = "test2" });
+        _context.Tests.Add(new Test() { Name = "test1" });
+        _context.Tests.Add(new Test() { Name = "test2" });
     }
 }

@@ -1,9 +1,7 @@
 ﻿using Application.Features.CategoryFeatures.Queries;
-using Application.Features.OrderFeatures.Commands;
 using Application.Features.StorageFeatures.Commands;
 using Domain.Models.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Wrapper;
 
@@ -22,6 +20,7 @@ namespace WebApi.Controllers
         {
             return await _mediator.Send(new GetAllCategoryQuery());
         }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(DeleteCategoryCommand command)
         {

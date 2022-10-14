@@ -17,8 +17,9 @@ namespace Persistence.repositories
 
         public OrderDetailRepository(ApplicationDbContext context)
         {
-            _context=context;
+            _context = context;
         }
+
         public async Task<int> AddOrderDetail(OrderDetail orderDetail)
         {
             _context.OrderDetails.Add(orderDetail);
@@ -26,13 +27,13 @@ namespace Persistence.repositories
             return orderDetail.OrderDetailId;
         }
 
-        public async Task<int> DeleteOrderDetailById(int orderDeteailId)
+        public async Task<int> DeleteOrderDetailById(int orderDetailId)
         {
-            var item =  _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDeteailId);
+            var item = _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDetailId);
             if (item == null) return default;
             _context.OrderDetails.Remove(item);
             await _context.SaveChangesAsync();
-            var order =  _context.Orders.FirstOrDefault(a => a.OrderId == item.OrderId);
+            var order = _context.Orders.FirstOrDefault(a => a.OrderId == item.OrderId);
             if (order == null) return default;
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
@@ -41,8 +42,7 @@ namespace Persistence.repositories
 
         public async Task<OrderDetail> UpdateQuantity(int orderDetailId, int quantity)
         {
-
-            var orderDetail =  _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDetailId);
+            var orderDetail = _context.OrderDetails.FirstOrDefault(a => a.OrderDetailId == orderDetailId);
             if (orderDetail == null)
             {
                 return null;
@@ -52,7 +52,7 @@ namespace Persistence.repositories
                 var order = _context.Orders.FirstOrDefault(a => a.OrderId == orderDetail.OrderId);
 
                 var book = _context.Books.FirstOrDefault(a => a.Id == order.BookId);
-                
+
                 orderDetail.Quantity = quantity;
                 orderDetail.UnitPrice = quantity * book.Price;
                 await _context.SaveChangesAsync();

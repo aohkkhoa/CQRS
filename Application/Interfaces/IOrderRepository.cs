@@ -6,7 +6,6 @@ namespace Application.Interfaces
 {
     public interface IOrderRepository
     {
-
         /// <summary>
         /// thêm order
         /// </summary>

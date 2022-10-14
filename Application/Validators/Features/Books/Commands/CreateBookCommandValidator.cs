@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.Features.Books.Commands
 {
-    public class CreateBookCommandValidator :AbstractValidator<CreateBookCommand>
+    public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     {
         public CreateBookCommandValidator()
         {
@@ -13,4 +13,3 @@ namespace Application.Validators.Features.Books.Commands
         }
     }
 }
- 

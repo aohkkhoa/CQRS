@@ -20,10 +20,11 @@ namespace Application.Features.OrderFeatures.Commands
             _orderDetailRepository = orderDetailRepository;
         }
 
-        public async Task<Result<OrderDetail>> Handle(UpdateQuantityCommand command, CancellationToken cancellationToken)
+        public async Task<Result<OrderDetail>> Handle(UpdateQuantityCommand command,
+            CancellationToken cancellationToken)
         {
             var orderDetail = await _orderDetailRepository.UpdateQuantity(command.orderDetailId, command.quantity);
-            return await Result<OrderDetail>.SuccessAsync(orderDetail,"Update Quantity Complete!");
+            return await Result<OrderDetail>.SuccessAsync(orderDetail, "Update Quantity Complete!");
         }
     }
 }
