@@ -16,7 +16,7 @@ public class TestRepository : ITestRepository
     public Task<List<Test>> GetTests()
     {
         var tests = (from a in _context.Tests
-            select a).ToList();
+                     select a).ToList();
         return Task.FromResult(tests);
     }
 }

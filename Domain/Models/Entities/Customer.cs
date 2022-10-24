@@ -8,6 +8,7 @@ namespace Domain.Models.Entities
     {
         [Key]
         public int CustomerId { get; set; }
+
         public string CustomerName { get; set; }
     }
 }

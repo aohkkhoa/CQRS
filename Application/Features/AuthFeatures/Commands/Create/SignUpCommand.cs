@@ -1,15 +1,7 @@
-﻿using Application.Features.BookFeatures.Commands.Create;
-using Application.Interfaces;
-using Domain.Models.DTO;
+﻿using Application.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Domain.Models.Entities;
 using Shared.Wrapper;
 
@@ -17,19 +9,20 @@ namespace Application.Features.AuthFeatures.Commands.Create
 {
     public class SignUpCommand : IRequest<Result<User>>
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public string Email { get; set; }
     }
 
     public class SignUpCommandHandle : IRequestHandler<SignUpCommand, Result<User>>
     {
-        private readonly IAuthRepository _authRepository;
+        private readonly IUserRepository _userRepository;
 
-        public SignUpCommandHandle(IAuthRepository authRepository)
+        public SignUpCommandHandle(IUserRepository userRepository)
         {
-            _authRepository = authRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<Result<User>> Handle(SignUpCommand command, CancellationToken cancellationToken)
@@ -41,11 +34,12 @@ namespace Application.Features.AuthFeatures.Commands.Create
                 user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(command.Password));
             }
 
-            user.userName = command.UserName;
-            user.address = command.Address;
-            user.phone = command.Phone;
-            await _authRepository.Register(user);
-            return await Result<User>.SuccessAsync(user, "Register Success");
+            user.Username = command.Username;
+            user.Address = command.Address;
+            user.Phone = command.Phone;
+            _userRepository.Insert(user);
+            await _userRepository.Save();
+            return await Result<User>.SuccessAsync(user, "Register Success !");
         }
     }
 }

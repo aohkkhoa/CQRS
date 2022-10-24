@@ -6,11 +6,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderDetailController : ControllerBase
+    public class OrderDetailController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public OrderDetailController(IMediator mediator) => _mediator = mediator;
+        public OrderDetailController(IMediator mediator) : base(mediator)
+        {
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(UpdateQuantityCommand command)

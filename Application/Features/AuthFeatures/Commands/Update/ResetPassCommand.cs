@@ -1,10 +1,7 @@
-﻿using Application.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using Application.Interfaces;
+using MediatR;
 using Shared.Wrapper;
 
 namespace Application.Features.AuthFeatures.Commands.Update
@@ -14,20 +11,33 @@ namespace Application.Features.AuthFeatures.Commands.Update
         public string token { get; set; }
         public string newPassword { get; set; }
     }
+
     public class ResetPassCommandHandle : IRequestHandler<ResetPassCommand, Result<string>>
     {
+        private readonly IUserRepository _userRepository;
 
-        private readonly IAuthRepository _authRepository;
-
-        public ResetPassCommandHandle(IAuthRepository authRepository)
+        public ResetPassCommandHandle(IUserRepository userRepository)
         {
-            _authRepository = authRepository;
+            _userRepository = userRepository;
         }
+
         public async Task<Result<string>> Handle(ResetPassCommand command, CancellationToken cancellationToken)
         {
-            await _authRepository.ResetPassWord(command.token, command.newPassword);
-            return await Result<string>.SuccessAsync("compelete");
-        }
+            var user = _userRepository.Entities.FirstOrDefault(u => u.ResetToken == command.token);
+            if (user is not null)
+            {
+                user.ResetToken = "";
+                using (HMACSHA512? hmac = new HMACSHA512())
+                {
+                    user.PasswordSalt = hmac.Key;
+                    user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(command.newPassword));
+                }
 
+                await _userRepository.Save();
+                return await Result<string>.SuccessAsync("Change password complete !");
+            }
+
+            return await Result<string>.FailAsync("Change password faild !");
+        }
     }
 }

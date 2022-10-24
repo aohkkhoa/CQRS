@@ -1,47 +1,22 @@
 ﻿using Application.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Persistence.Context;
 using Persistence.repositories;
 using Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Persistence.Repository;
 using Persistence.SeedingData;
+using FluentValidation.AspNetCore;
+
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 namespace Persistence.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configuration.GetConnectionString("MyDB")));
-        }
-
-        public static IApplicationBuilder InitializeDb(this IApplicationBuilder app)
-        {
-            using var serviceScope = app.ApplicationServices.CreateScope();
-
-            var initializers = serviceScope.ServiceProvider.GetServices<IDatabaseSeeder>();
-
-            foreach (var initializer in initializers)
-            {
-                initializer.Initialize();
-            }
-
-            return app;
-        }
-
         public static void AddApplication(this IServiceCollection services)
         {
             var builder = WebApplication.CreateBuilder();
@@ -64,7 +39,6 @@ namespace Persistence.Extensions
                 typeof(IOrderDetailRepository).Assembly,
                 typeof(IStorageRepository).Assembly,
                 typeof(ICategoryRepository).Assembly,
-                typeof(IAuthRepository).Assembly,
                 typeof(IPermissionRepository).Assembly,
                 typeof(IEmailRepository).Assembly,
                 typeof(ITestRepository).Assembly
@@ -74,16 +48,35 @@ namespace Persistence.Extensions
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
-            services.AddAuthorization(options =>
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        }
+
+        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configuration.GetConnectionString("MyDB")));
+        }
+
+        public static IApplicationBuilder InitializeDb(this IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.CreateScope();
+
+            var initializers = serviceScope.ServiceProvider.GetServices<IDatabaseSeeder>();
+
+            foreach (var initializer in initializers)
             {
-                options.AddPolicy("Ex1", policy => policy.RequireRole("Member", "Admin"));
-                options.AddPolicy("teacher", policy => policy.RequireRole("SuperAdmin", "Admin", "Teacher"));
-            });
+                initializer.Initialize();
+            }
+
+            return app;
         }
     }
 }

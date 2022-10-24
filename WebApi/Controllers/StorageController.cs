@@ -2,6 +2,7 @@
 using Domain.Models.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Wrapper;
 
 namespace WebApi.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebApi.Controllers
         public StorageController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IEnumerable<StorageUnit>> GetAll()
+        public async Task<Result<IEnumerable<StorageUnit>>> GetAll()
         {
             return await _mediator.Send(new GetAllStorageQuery());
         }

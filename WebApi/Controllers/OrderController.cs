@@ -10,11 +10,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public OrderController(IMediator mediator) => _mediator = mediator;
+        public OrderController(IMediator mediator) : base(mediator)
+        {
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateOrderCommand command)
@@ -29,18 +29,18 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("total/{customerId}")]
-        public async Task<IResult<float>> SeeBeforePay(int customerId)
+        public async Task<IResult<float>> TotalWillPay(int customerId)
         {
             return await _mediator.Send(new GetTotalPriceWillPayQuery { CustomerId = customerId });
         }
 
         [HttpGet("orderWillPay/{customerId}")]
-        public async Task<IResult<List<OrderInformation>>> OrderBeforePay(int customerId)
+        public async Task<IResult<IEnumerable<OrderInformation>>> OrderBeforePay(int customerId)
         {
             return await _mediator.Send(new GetOrderWillPayQuery { CustomerId = customerId });
         }
 
-        [HttpGet("paid/{customerId}")]
+        [HttpPut("paid/{customerId}")]
         public async Task<IResult> Paid(int customerId)
         {
             return await _mediator.Send(new UpdateCheckPaidOrderCommand { CustomerId = customerId });

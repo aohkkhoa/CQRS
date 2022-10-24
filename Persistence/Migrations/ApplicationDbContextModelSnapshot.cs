@@ -22,42 +22,6 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BookManagement2.Models.Entities.User", b =>
-                {
-                    b.Property<int>("userId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("userId"), 1L, 1);
-
-                    b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ResetToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("userId");
-
-                    b.ToTable("UserTable", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Models.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -77,6 +41,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
@@ -86,7 +53,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Book", (string)null);
+                    b.ToTable("Book");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Category", b =>
@@ -103,7 +70,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Customer", b =>
@@ -120,7 +87,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer", (string)null);
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Menu", b =>
@@ -140,7 +107,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menu", (string)null);
+                    b.ToTable("Menu");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Order", b =>
@@ -159,7 +126,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("OrderMain", (string)null);
+                    b.ToTable("OrderMain");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.OrderDetail", b =>
@@ -184,7 +151,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("OrderDetailId");
 
-                    b.ToTable("OrderDetail", (string)null);
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Permission", b =>
@@ -222,7 +189,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission", (string)null);
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Role", b =>
@@ -239,7 +206,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.Storage", b =>
@@ -258,7 +225,46 @@ namespace Persistence.Migrations
 
                     b.HasKey("StorageId");
 
-                    b.ToTable("Storage", (string)null);
+                    b.ToTable("Storage");
+                });
+
+            modelBuilder.Entity("Domain.Models.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResetToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserTable");
                 });
 
             modelBuilder.Entity("Domain.Models.Entities.UserRole", b =>
@@ -277,7 +283,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Domain.Models.EntityTest.Test", b =>
@@ -294,7 +300,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestSeeding", (string)null);
+                    b.ToTable("TestSeeding");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,16 +1,14 @@
 using Application.Features.BookFeatures.Commands.Create;
-using Application.Validators.Features.Books.Commands;
+using Domain.Models.DTO;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Persistence.Context;
 using Persistence.Extensions;
 using System.Text;
-using Domain.Models.DTO;
-using Persistence.Context;
-using WebApi;
 using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +17,7 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers().AddFluentValidation();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -64,7 +63,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
 // add mediatr and repository
 builder.Services.AddApplication();
 // add DBcontext
@@ -74,7 +72,6 @@ builder.Services.AddTransient<ApplicationDbContext>();
 
 builder.Services.AddScoped<IValidator<CreateBookCommand>, CreateBookCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBookCommandValidator>();
-
 
 builder.Services.Configure<ApplicationSettings>(
     builder.Configuration.GetSection("ApplicationSettings"));
@@ -111,12 +108,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
 app.MapControllers();
-
 
 app.Run();

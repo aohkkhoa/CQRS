@@ -5,12 +5,12 @@ using Shared.Wrapper;
 
 namespace Application.Features.OrderFeatures.Queries
 {
-    public class GetOrderWillPayQuery : IRequest<IResult<List<OrderInformation>>>
+    public class GetOrderWillPayQuery : IRequest<IResult<IEnumerable<OrderInformation>>>
     {
         public int CustomerId { get; set; }
     }
 
-    public class GetOrderWillPayQueryHandler : IRequestHandler<GetOrderWillPayQuery, IResult<List<OrderInformation>>>
+    public class GetOrderWillPayQueryHandler : IRequestHandler<GetOrderWillPayQuery, IResult<IEnumerable<OrderInformation>>>
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -19,11 +19,11 @@ namespace Application.Features.OrderFeatures.Queries
             _orderRepository = orderRepository;
         }
 
-        public async Task<IResult<List<OrderInformation>>> Handle(GetOrderWillPayQuery query,
-            CancellationToken cancellationToken)
+        public async Task<IResult<IEnumerable<OrderInformation>>> Handle(GetOrderWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerId);
-            return await Result<List<OrderInformation>>.SuccessAsync(productList, "Ok");
+            var listOrderWillPay = await _orderRepository.GetAllOrderWillPay(query.CustomerId);
+
+            return await Result<IEnumerable<OrderInformation>>.SuccessAsync(listOrderWillPay);
         }
     }
 }

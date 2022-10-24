@@ -1,7 +1,7 @@
-﻿using System.Net;
-using System.Text.Json;
-using Application.Exceptions;
+﻿using Application.Exceptions;
 using Shared.Wrapper;
+using System.Net;
+using System.Text.Json;
 
 namespace WebApi.Middlewares
 {

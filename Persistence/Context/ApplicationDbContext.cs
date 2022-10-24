@@ -11,7 +11,6 @@ namespace Persistence.Context
         {
         }
 
-
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -24,11 +23,5 @@ namespace Persistence.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Menu> Menus { get; set; }
-
-
-        public async Task<int> SaveChanges()
-        {
-            return await base.SaveChangesAsync();
-        }
     }
 }

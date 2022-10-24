@@ -8,86 +8,51 @@ namespace Application.Features.OrderFeatures.Commands
 {
     public class CreateOrderCommand : IRequest<IResult>
     {
-        public int customerId { get; set; }
-        public List<OrderCreate> OrderCreate { get; set; }
-
+        public int CustomerId { get; set; }
+        public List<OrderCreate> ListOrderCreate { get; set; }
 
         public class CreateBookCommandHandler : IRequestHandler<CreateOrderCommand, IResult>
         {
             private readonly IOrderRepository _orderRepository;
             private readonly IOrderDetailRepository _orderDetailRepository;
+            private readonly IBookRepository _bookRepository;
 
-            public CreateBookCommandHandler(IOrderRepository context, IOrderDetailRepository orderDetailRepository)
+            public CreateBookCommandHandler(IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository, IBookRepository bookRepository)
             {
-                _orderRepository = context;
+                _orderRepository = orderRepository;
                 _orderDetailRepository = orderDetailRepository;
+                _bookRepository = bookRepository;
             }
 
             public async Task<IResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
             {
-                try
+                foreach (var item in command.ListOrderCreate)
                 {
-                    var checkAnyOrder = await _orderRepository.getAllOrderWillPay(1);
-                    foreach (var item in command.OrderCreate)
+                    var order = new Order
                     {
-                        List<OrderCreate> orderCreate = new List<OrderCreate>()
+                        CustomerId = item.CustomerId,
+                        BookId = item.BookId
+                    };
+                    var orderResult = await _orderRepository.AddOrder(order, item.Quantity);
+                    var price = (from b in _bookRepository.Entities
+                                 where b.Id == item.BookId
+                                 select b.Price).First();
+                    if (orderResult.Succeeded)
+                    {
+                        var orderDetail = new OrderDetail
                         {
-                            new()
-                            {
-                                BookId = item.BookId,
-                                CustomerId = item.CustomerId,
-                                Quantity = item.Quantity,
-                            }
+                            OrderId = orderResult.Data.OrderId,
+                            Quantity = item.Quantity,
+                            UnitPrice = price * item.Quantity,
+                            CheckPaid = 0
                         };
-                        if (!checkAnyOrder.Any()) orderCreate = command.OrderCreate;
-                        var count = 0;
-                        foreach (var item2 in checkAnyOrder)
-                        {
-                            if (item.BookId == item2.BookId)
-                            {
-                                count++;
-                                var orderDetailTest = _orderRepository.findOrderDetailByBookId(item.BookId);
-                                if (orderDetailTest.Count != 0)
-                                    await _orderRepository.addQuantityOfOrderDetail(orderDetailTest, item.Quantity);
-                            }
-                        }
-
-                        if (count == 0)
-                        {
-                            foreach (var item2 in orderCreate)
-                            {
-                                var order = new Order
-                                {
-                                    CustomerId = item2.CustomerId,
-                                    BookId = item2.BookId
-                                };
-                                var orderResult = await _orderRepository.AddOrder(order, item2.Quantity);
-                                var price = _orderRepository.getPriceByBookId(item2.BookId);
-                                if (orderResult.Succeeded)
-                                {
-                                    var orderDetail = new OrderDetail
-                                    {
-                                        OrderId = orderResult.Data.OrderId,
-                                        Quantity = item2.Quantity,
-                                        UnitPrice = price * item2.Quantity,
-                                        CheckPaid = 0
-                                    };
-                                    await _orderDetailRepository.AddOrderDetail(orderDetail);
-                                }
-                                else return await Result.FailAsync(orderResult.Messages);
-                            }
-
-                            return await Result.SuccessAsync("Add Complete!");
-                        }
+                        _orderDetailRepository.Insert(orderDetail);
+                        await _orderDetailRepository.Save();
                     }
-                }
-                catch (Exception ex)
-                {
-                    return await Result.FailAsync("Maybe the quantity is not enough " + ex);
+                    else return await Result.FailAsync(orderResult.Messages);
                 }
 
-                return await Result.SuccessAsync("Finish");
-                //_storageRepository.HandleQuantityStorage(order.BookId, command.Quantity);
+                return await Result.SuccessAsync("Add Success !");
             }
         }
     }

@@ -1,15 +1,13 @@
-﻿using Application.Interfaces;
+﻿using System.Security.Cryptography;
+using Application.Interfaces;
+using Domain.Models.DTO;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
-using System.Net.Mail;
-using MailKit.Net.Smtp;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
-using System.Security.Cryptography;
-using Domain.Models.DTO;
 
-namespace Persistence.Repositories
+namespace Persistence.Repository
 {
     public class EmailRepository : IEmailRepository
     {
@@ -20,8 +18,7 @@ namespace Persistence.Repositories
             _appSettings = appSettings.Value;
         }
 
-
-        public void Send(string to, string subject, string html, string from = null)
+        public void Send(string to, string subject, string html, string from)
         {
             // create message
             var email = new MimeMessage();
@@ -36,15 +33,6 @@ namespace Persistence.Repositories
             smtp.Authenticate(_appSettings.SmtpUser, _appSettings.SmtpPass);
             smtp.Send(email);
             smtp.Disconnect(true);
-        }
-
-        public string randomTokenString()
-        {
-            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            var randomBytes = new byte[40];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
-            // convert random bytes to hex string
-            return BitConverter.ToString(randomBytes).Replace("-", "");
         }
     }
 }

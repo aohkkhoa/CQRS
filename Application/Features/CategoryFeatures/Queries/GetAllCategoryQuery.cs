@@ -18,11 +18,10 @@ namespace Application.Features.CategoryFeatures.Queries
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Result<IEnumerable<Category>>> Handle(GetAllCategoryQuery query,
-            CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<Category>>> Handle(GetAllCategoryQuery query, CancellationToken cancellationToken)
         {
-            var productList = _categoryRepository.GetAllCategories();
-            return await Result<IEnumerable<Category>>.SuccessAsync(productList);
+            var listCategory = _categoryRepository.GetAll();
+            return await Result<IEnumerable<Category>>.SuccessAsync(listCategory);
         }
     }
 }

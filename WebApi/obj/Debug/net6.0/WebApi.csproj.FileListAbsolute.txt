@@ -47,7 +47,6 @@ D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.GeneratedMSBuildEditorConfig.
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.AssemblyInfoInputs.cache
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.AssemblyInfo.cs
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.csproj.CoreCompileInputs.cache
-D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cs
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\staticwebassets.build.json
 D:\dotnet\CQRSdemo1\WebApi\obj\Debug\net6.0\staticwebassets.development.json

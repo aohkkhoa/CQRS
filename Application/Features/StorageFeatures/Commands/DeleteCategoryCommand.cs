@@ -11,22 +11,31 @@ namespace Application.Features.StorageFeatures.Commands
 
     public class DelegateCategoryCommandHandle : IRequestHandler<DeleteCategoryCommand, IResult>
     {
+        private readonly IBookRepository _bookRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public DelegateCategoryCommandHandle(ICategoryRepository categoryRepository)
+        public DelegateCategoryCommandHandle(ICategoryRepository categoryRepository, IBookRepository bookRepository)
         {
+            _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
         }
 
-        public Task<IResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var result = _categoryRepository.DeleteCategory(request.CategoryId);
-            if (!result.Result.Succeeded && result.Result.Messages.Count == 1)
+            var books = _bookRepository.GetById(request.CategoryId);
+            if (books is not null)
             {
-                return Result.FailAsync("This category has many book");
+                return await Result.FailAsync("This category has many book !");
             }
 
-            return Result.SuccessAsync("DeleteOk");
+            var category = _categoryRepository.GetById(request.CategoryId);
+            if (category is null)
+            {
+                return await Result.FailAsync("This category not found !");
+            }
+            _categoryRepository.Delete(request.CategoryId);
+            await _categoryRepository.Save();
+            return await Result.SuccessAsync("Delete Complete !");
         }
     }
 }

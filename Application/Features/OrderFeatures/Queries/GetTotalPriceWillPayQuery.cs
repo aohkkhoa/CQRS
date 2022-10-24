@@ -20,9 +20,13 @@ namespace Application.Features.OrderFeatures.Queries
 
         public async Task<IResult<float>> Handle(GetTotalPriceWillPayQuery query, CancellationToken cancellationToken)
         {
-            var productList = await _orderRepository.getAllOrderWillPay(query.CustomerId);
-            var totalPrice = _orderRepository.getTotalPrice(productList);
-            return await Result<float>.SuccessAsync(totalPrice, "OK");
+            var listOrderWillPay = await _orderRepository.GetAllOrderWillPay(query.CustomerId);
+            var totalPrice = 0.0f;
+            foreach (var item in listOrderWillPay)
+            {
+                totalPrice += item.UnitPrice;
+            }
+            return await Result<float>.SuccessAsync(totalPrice);
         }
     }
 }

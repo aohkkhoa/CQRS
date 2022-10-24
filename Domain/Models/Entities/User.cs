@@ -7,12 +7,14 @@ namespace Domain.Models.Entities
     public class User
     {
         [Key]
-        public int userId { get; set; }
-        public string userName { get; set; }
+        public int UserId { get; set; }
+
+        public string Username { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
-        public string address { get; set; }
-        public string phone { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
         public string? ResetToken { get; set; }
+        public string? Email { get; set; }
     }
 }

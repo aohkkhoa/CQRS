@@ -1,12 +1,8 @@
 ﻿using Domain.Models.DTO;
+using Domain.Models.Entities;
 
 namespace Application.Interfaces;
 
-public interface IPermissionRepository
+public interface IPermissionRepository : IGenericRepository<Permission>
 {
-    /// <summary>
-    /// lay ds permisson
-    /// </summary>
-    /// <returns></returns>
-    Task<List<PermissionInfo>> GetAllPermission();
 }
