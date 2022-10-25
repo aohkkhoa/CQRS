@@ -1,8 +1,14 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces;
+using Domain.Models.DTO;
+using MailKit.Security;
 using MediatR;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using MimeKit.Text;
 using Shared.Wrapper;
 using System.Security.Cryptography;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace Application.Features.AuthFeatures.Commands.Update
 {
@@ -13,12 +19,12 @@ namespace Application.Features.AuthFeatures.Commands.Update
 
     public class ForgotPasswordCommandHandle : IRequestHandler<ForgotPasswordCommand, Result<string>>
     {
-        private readonly IEmailRepository _emailRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ApplicationSettings _appSettings;
 
-        public ForgotPasswordCommandHandle(IEmailRepository emailRepository, IUserRepository userRepository)
+        public ForgotPasswordCommandHandle(IOptions<ApplicationSettings> appSettings, IUserRepository userRepository)
         {
-            _emailRepository = emailRepository;
+            _appSettings = appSettings.Value; ;
             _userRepository = userRepository;
         }
 
@@ -37,7 +43,18 @@ namespace Application.Features.AuthFeatures.Commands.Update
 
             user.ResetToken = resetToken;
             await _userRepository.Save();
-            _emailRepository.Send(command.Email, "Sign-up Verification API - Reset Password", $@"<h4>Reset Password Email</h4> {resetToken}");
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(_appSettings.EmailFrom));
+            email.To.Add(MailboxAddress.Parse(command.Email));
+            email.Subject = "Sign-up Verification API - Reset Password";
+            email.Body = new TextPart(TextFormat.Html) { Text = $@"<h4>Reset Password Email</h4> {resetToken}" };
+
+            // send email
+            using var smtp = new SmtpClient();
+            smtp.Connect(_appSettings.SmtpHost, _appSettings.SmtpPort, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_appSettings.SmtpUser, _appSettings.SmtpPass);
+            smtp.Send(email);
+            smtp.Disconnect(true);
             return await Result<string>.SuccessAsync("SendMail Success !");
         }
     }

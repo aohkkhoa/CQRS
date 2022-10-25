@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "w+MSxSFm5kVkcC0F2QmdTE7Pu/R9Slu6t3QnpGnCz5Y2mO/UhqKnRdl42udhn2alXxtrpeOIwTy7piT6QVP+ug==",
+  "dgSpecHash": "LIO9t8+iNZwhzMm1uESJiWEH0KzBTMOcKK9rsLI+ywDyIRLsbK3NnB1Mu3CEVLEY3QaLq9v6+MwPKk1ZsD0aCQ==",
   "success": true,
   "projectFilePath": "D:\\dotnet\\CQRSdemo1\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [

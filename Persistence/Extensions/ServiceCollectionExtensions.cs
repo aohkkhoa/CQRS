@@ -12,6 +12,8 @@ using Persistence.SeedingData;
 using FluentValidation.AspNetCore;
 
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
+using Application.Features.BookFeatures.Commands.Create;
+using FluentValidation;
 
 namespace Persistence.Extensions
 {
@@ -21,26 +23,13 @@ namespace Persistence.Extensions
         {
             var builder = WebApplication.CreateBuilder();
             ConfigurationManager configuration = builder.Configuration;
-            /*builder.Services.AddMediatR(typeof(GetAllBookQuery).Assembly,
-                            typeof(GetAllCategoryQuery).Assembly,
-                            typeof(CreateBookCommand).Assembly);*/
-            /*builder.Services.AddMediatR(typeof(IBookRepository).Assembly,
-                                        typeof(IOrderRepository).Assembly,
-                                        typeof(IOrderDetailRepository).Assembly,
-                                        typeof(IStorageRepository).Assembly,
-                                        typeof(ICategoryRepository).Assembly);
-            builder.Services.AddScoped<IStorageRepository, StorageRepository>();
-            builder.Services.AddScoped<IBookRepository, BookRepository>();
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();*/
+
             services.AddMediatR(typeof(IBookRepository).Assembly,
                 typeof(IOrderRepository).Assembly,
                 typeof(IOrderDetailRepository).Assembly,
                 typeof(IStorageRepository).Assembly,
                 typeof(ICategoryRepository).Assembly,
                 typeof(IPermissionRepository).Assembly,
-                typeof(IEmailRepository).Assembly,
                 typeof(ITestRepository).Assembly
             );
             services.AddScoped<IStorageRepository, StorageRepository>();
@@ -48,7 +37,6 @@ namespace Persistence.Extensions
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -63,6 +51,13 @@ namespace Persistence.Extensions
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(configuration.GetConnectionString("MyDB")));
+        }
+
+        public static void AddFluentValidator(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssembly(typeof(CreateBookCommandValidator).Assembly);
         }
 
         public static IApplicationBuilder InitializeDb(this IApplicationBuilder app)

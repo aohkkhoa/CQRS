@@ -16,7 +16,9 @@ var assembly = AppDomain.CurrentDomain.GetAssemblies();
 ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddControllers().AddFluentValidation();
+builder.Services.AddControllers();
+
+builder.Services.AddFluentValidator();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -69,9 +71,6 @@ builder.Services.AddApplication();
 builder.Services.AddDbContext(configuration);
 builder.Services.AddScoped<IMediator, Mediator>();
 builder.Services.AddTransient<ApplicationDbContext>();
-
-builder.Services.AddScoped<IValidator<CreateBookCommand>, CreateBookCommandValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateBookCommandValidator>();
 
 builder.Services.Configure<ApplicationSettings>(
     builder.Configuration.GetSection("ApplicationSettings"));

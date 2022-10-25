@@ -686,8 +686,10 @@
           "Domain": "1.0.0",
           "EntityFramework": "6.4.4",
           "FluentValidation.AspNetCore": "11.2.2",
+          "MailKit": "3.4.1",
           "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
           "Microsoft.AspNetCore.Session": "2.2.0",
+          "MimeKit": "3.4.1",
           "Shared": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.10.0"
         },

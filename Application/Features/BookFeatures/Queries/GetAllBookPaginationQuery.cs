@@ -9,6 +9,7 @@ namespace Application.Features.BookFeatures.Queries
     {
         public int? Page { get; set; }
         public int? PageSize { get; set; }
+        public string? CategoryName { get; set; }
     }
 
     public class GetAllBookPaginationQueryHandle : IRequestHandler<GetAllBookPaginationQuery, Result<IEnumerable<BookInformation>>>
@@ -29,7 +30,8 @@ namespace Application.Features.BookFeatures.Queries
             var listBookInformation = from b in _bookRepository.Entities
                                       join c in _categoryRepository.Entities on b.CategoryId equals c.CategoryId
                                       join s in _storageRepository.Entities on b.Id equals s.BookId
-                                      where b.IsDeleted == false
+                                      where (b.IsDeleted == false)
+                                      && (string.IsNullOrEmpty(request.CategoryName) || c.CategoryName.Contains(request.CategoryName))
                                       orderby b.Id descending
                                       select new BookInformation()
                                       {
