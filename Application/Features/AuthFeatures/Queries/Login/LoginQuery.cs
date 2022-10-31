@@ -28,8 +28,7 @@ namespace Application.Features.AuthFeatures.Queries.Login
         private readonly IMenuRepository _menuRepository;
         private readonly IPermissionRepository _permissionRepository;
 
-        public LoginQueryHandle(IOptions<ApplicationSettings> appSettings,
-            IUserRepository userRepository, IUserRoleRepository userRoleRepository, IRoleRepository roleRepository, IMenuRepository menuRepository, IPermissionRepository permissionRepository)
+        public LoginQueryHandle(IOptions<ApplicationSettings> appSettings, IUserRepository userRepository, IUserRoleRepository userRoleRepository, IRoleRepository roleRepository, IMenuRepository menuRepository, IPermissionRepository permissionRepository)
         {
             _appSettings = appSettings.Value;
             _menuRepository = menuRepository;

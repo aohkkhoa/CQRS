@@ -1,12 +1,10 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Models.DTO;
 using Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using Persistence.Repositories;
 using Shared.Wrapper;
-using System.Data.Entity;
 
 namespace Persistence.repositories
 {

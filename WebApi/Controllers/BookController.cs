@@ -40,9 +40,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("Pagination")]
-        public async Task<Result<IEnumerable<BookInformation>>> Pagination(int? page, int? pageSize, string? categoryName)
+        public async Task<Result<IEnumerable<BookInformation>>> Pagination(int? page, int? pageSize, string? categoryName, string strings)
         {
-            return await _mediator.Send(new GetAllBookPaginationQuery { Page = page, PageSize = pageSize, CategoryName = categoryName });
+            return await _mediator.Send(new GetAllBookPaginationQuery { Page = page, PageSize = pageSize, CategoryName = categoryName, strings = strings });
         }
 
         [HttpPut("Edit-Quantity")]

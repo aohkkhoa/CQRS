@@ -1,7 +1,4 @@
-using Application.Features.BookFeatures.Commands.Create;
 using Domain.Models.DTO;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +21,6 @@ builder.Services.AddFluentValidator();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    //c.IncludeXmlComments(string.Format(@"{0}\NinePlus.ERP.WebApi.xml", System.AppDomain.CurrentDomain.BaseDirectory));
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",

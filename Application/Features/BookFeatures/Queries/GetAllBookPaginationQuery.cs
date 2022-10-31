@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces;
 using Domain.Models.DTO;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Shared.Wrapper;
+using System.Reflection;
 
 namespace Application.Features.BookFeatures.Queries
 {
@@ -10,6 +12,7 @@ namespace Application.Features.BookFeatures.Queries
         public int? Page { get; set; }
         public int? PageSize { get; set; }
         public string? CategoryName { get; set; }
+        public string strings { get; set; }
     }
 
     public class GetAllBookPaginationQueryHandle : IRequestHandler<GetAllBookPaginationQuery, Result<IEnumerable<BookInformation>>>
@@ -41,13 +44,33 @@ namespace Application.Features.BookFeatures.Queries
                                           Author = b.Author,
                                           Quantity = s.Quantity
                                       };
+            IOrderedEnumerable<BookInformation> orderedList = listBookInformation.OrderByDescending(e => e.BookId);
+
+            foreach (var item in request.strings.Split(','))
+            {
+                var mapPropertyOrder = new List<string>(item.Split('='));
+                if (item is not null)
+                {
+                    if (mapPropertyOrder[1] == "desc")
+                        orderedList = orderedList.ThenByDescending(e => e.GetType().GetProperty(mapPropertyOrder[0]));
+                    else
+                        orderedList = orderedList.ThenBy(e => e.GetType().GetProperty(mapPropertyOrder[0]));
+                }
+            }
+
+            /* listBookInformation.OrderByDescending(a => a.BookId);
+             foreach (string propname in queryString.Split(','))
+                 listBookInformation.(x => GetPropertyValue(x, propname));*/
+
             if (request.Page is null) request.Page = 1;
             if (request.PageSize is null) request.PageSize = 5;
             int skip = (request.Page.Value - 1) * request.PageSize.Value;
-            var listBookInformationPagination = listBookInformation
+            var listBookInformationPagination = orderedList
                                                 .OrderByDescending(b => b.BookId)
                                                 .Skip(skip)
-                                                .Take(request.PageSize.Value);
+                                                .Take(request.PageSize.Value)
+                                                ;
+
             return Result<IEnumerable<BookInformation>>.SuccessAsync(listBookInformationPagination);
         }
     }
